@@ -1,5 +1,5 @@
 /**
- * ENGLISH TEP Master - The Battlefield Mock Exam Controller
+ * ENGLISH TEP Master - The Battlefield Mock Exam Controller (Bespoke Redesign)
  * Full 90-Item Official Mock Exam (120-minute timer, 4 parts, section analytics)
  */
 window.TEP = window.TEP || {};
@@ -11,10 +11,10 @@ window.TEP.mockExam = (function () {
 
     // Track user choices
     let userAnswers = {
-        grammar: {}, // idx -> chosen origIdx
-        error: {},   // idx -> chosen origIdx
-        cloze: {},   // qNum -> chosen origIdx
-        reading: {}  // globalQIdx -> chosen origIdx
+        grammar: {},
+        error: {},
+        cloze: {},
+        reading: {}
     };
 
     let partScores = {
@@ -74,30 +74,21 @@ window.TEP.mockExam = (function () {
 
         const badge = document.getElementById('mock-timer-display');
         if (badge) {
-            if (timeLeft <= 300) { // under 5 minutes
-                badge.className = 'fixed top-4 right-4 z-[70] px-4 py-2 rounded-full shadow-xl font-black text-white text-sm sm:text-base tabular-nums flex items-center gap-2 bg-rose-600 animate-pulse border-2 border-white/40';
-            } else if (timeLeft <= 900) { // under 15 minutes
-                badge.className = 'fixed top-4 right-4 z-[70] px-4 py-2 rounded-full shadow-xl font-bold text-amber-600 dark:text-amber-400 text-sm sm:text-base tabular-nums flex items-center gap-2 bg-white dark:bg-slate-900 border-2 border-amber-500';
+            if (timeLeft <= 300) {
+                badge.className = 'fixed top-5 right-5 z-[70] px-4 py-2 rounded-full shadow-2xl font-black text-white text-sm sm:text-base tabular-nums flex items-center gap-2 bg-rose-600 animate-pulse border-2 border-white/40';
+            } else if (timeLeft <= 900) {
+                badge.className = 'fixed top-5 right-5 z-[70] px-4 py-2 rounded-full shadow-2xl font-bold text-amber-600 dark:text-amber-400 text-sm sm:text-base tabular-nums flex items-center gap-2 bg-white/95 dark:bg-slate-900/95 border-2 border-amber-500';
             } else {
-                badge.className = 'fixed top-4 right-4 z-[70] px-4 py-2 rounded-full shadow-xl font-bold text-indigo-600 dark:text-indigo-400 text-sm sm:text-base tabular-nums flex items-center gap-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800';
+                badge.className = 'fixed top-5 right-5 z-[70] px-4 py-2 rounded-full shadow-2xl font-bold text-indigo-600 dark:text-indigo-400 text-sm sm:text-base tabular-nums flex items-center gap-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800';
             }
         }
     }
 
     function renderCurrentPartQuestion() {
-        if (currentPart === 1) {
-            // Grammar (20 items, Q. 1 - 20)
-            renderMockGrammar();
-        } else if (currentPart === 2) {
-            // Error (15 items, Q. 21 - 35)
-            renderMockError();
-        } else if (currentPart === 3) {
-            // Cloze (15 items, Q. 36 - 50)
-            renderMockCloze();
-        } else if (currentPart === 4) {
-            // Reading (40 items, Q. 51 - 90)
-            renderMockReading();
-        }
+        if (currentPart === 1) renderMockGrammar();
+        else if (currentPart === 2) renderMockError();
+        else if (currentPart === 3) renderMockCloze();
+        else if (currentPart === 4) renderMockReading();
     }
 
     function renderMockGrammar() {
@@ -106,7 +97,7 @@ window.TEP.mockExam = (function () {
         const q = list[currentItemIndex];
         const globalNum = currentItemIndex + 1;
 
-        updateQuizHeader(globalNum, 90, window.TEP.ui.t('mock_part1'));
+        updateQuizHeader(globalNum, 90);
 
         const qText = document.getElementById('quiz-question-text');
         if (qText) qText.textContent = q.q;
@@ -124,7 +115,7 @@ window.TEP.mockExam = (function () {
             q.options.forEach((optText, optIdx) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-4 rounded-2xl text-left font-medium flex items-center gap-3.5 w-full border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3.5 w-full';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0">
                         ${letters[optIdx]}
@@ -136,7 +127,6 @@ window.TEP.mockExam = (function () {
                     userAnswers.grammar[currentItemIndex] = optIdx;
                     if (optIdx === q.ans) partScores.grammar++;
 
-                    // Visual selection only
                     container.querySelectorAll('button').forEach(b => {
                         b.classList.remove('border-indigo-600', 'bg-indigo-50', 'dark:bg-indigo-950/40');
                     });
@@ -151,7 +141,6 @@ window.TEP.mockExam = (function () {
                             if (currentItemIndex < list.length) {
                                 renderMockGrammar();
                             } else {
-                                // Advance to Error
                                 currentPart = 2;
                                 currentItemIndex = 0;
                                 window.TEP.ui.showToast("จบพาร์ท 1 (Grammar) กำลังเข้าสู่พาร์ท 2 (Error)...", "success");
@@ -171,7 +160,7 @@ window.TEP.mockExam = (function () {
         const q = list[currentItemIndex];
         const globalNum = 20 + currentItemIndex + 1; // 21 - 35
 
-        updateQuizHeader(globalNum, 90, window.TEP.ui.t('mock_part2'));
+        updateQuizHeader(globalNum, 90);
 
         const qText = document.getElementById('quiz-question-text');
         if (qText) qText.textContent = q.q;
@@ -189,7 +178,7 @@ window.TEP.mockExam = (function () {
             q.options.forEach((optText, optIdx) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-4 rounded-2xl text-left font-medium flex items-center gap-3.5 w-full border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3.5 w-full';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0">
                         ${letters[optIdx]}
@@ -215,7 +204,6 @@ window.TEP.mockExam = (function () {
                             if (currentItemIndex < list.length) {
                                 renderMockError();
                             } else {
-                                // Advance to Cloze
                                 currentPart = 3;
                                 mockClozePassageIdx = 0;
                                 window.TEP.ui.showToast("จบพาร์ท 2 (Error) กำลังเข้าสู่พาร์ท 3 (Cloze Test)...", "success");
@@ -241,7 +229,7 @@ window.TEP.mockExam = (function () {
         const container = document.getElementById('cloze-text-container');
         const nextPassBtn = document.getElementById('cloze-next-passage-btn');
 
-        if (titleEl) titleEl.textContent = `${passage.title} (${window.TEP.ui.t('mock_part3')})`;
+        if (titleEl) titleEl.textContent = `${passage.title}`;
 
         const answeredCount = Object.keys(userAnswers.cloze).length;
         const globalNum = 35 + answeredCount;
@@ -262,14 +250,12 @@ window.TEP.mockExam = (function () {
 
                     const isAnswered = userAnswers.cloze[qNum] !== undefined;
 
-                    btn.className = "inline-flex items-center justify-center px-3 py-1 mx-1.5 my-1 rounded-xl text-sm md:text-base font-bold transition-all border shadow-xs cursor-pointer align-middle ";
-
+                    btn.className = "cloze-blank-pill ";
                     if (isAnswered) {
                         btn.textContent = q.options[userAnswers.cloze[qNum]];
-                        btn.className += "bg-indigo-100 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300 border-indigo-400";
+                        btn.classList.add('bg-indigo-100', 'dark:bg-indigo-950/80', 'text-indigo-700', 'dark:text-indigo-300');
                     } else {
-                        btn.innerHTML = `<i class="fas fa-edit mr-1 text-xs opacity-60"></i> Q.${qNum}`;
-                        btn.className += "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700 hover:bg-indigo-100 cloze-btn-unanswered";
+                        btn.innerHTML = `<i class="fas fa-edit mr-1 text-[10px] opacity-70"></i> Q.${qNum}`;
                     }
 
                     btn.onclick = () => openMockClozeModal(qNum);
@@ -292,11 +278,10 @@ window.TEP.mockExam = (function () {
                     if (mockClozePassageIdx < passages.length) {
                         renderMockCloze();
                     } else {
-                        // Advance to Reading
                         currentPart = 4;
                         mockReadingPassageIdx = 0;
                         mockReadingQIdx = 0;
-                        window.TEP.ui.showToast("จบพาร์ท 3 (Cloze) กำลังเข้าสู่พาร์ทสุดท้าย Reading Comprehension...", "success");
+                        window.TEP.ui.showToast("จบพาร์ท 3 (Cloze) กำลังเข้าสู่พาร์ทสุดท้าย Reading...", "success");
                         renderMockReading();
                     }
                 };
@@ -327,7 +312,7 @@ window.TEP.mockExam = (function () {
             q.options.forEach((optText, optIdx) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-3.5 rounded-xl text-left font-medium flex items-center gap-3 w-full border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3 w-full py-3';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0">
                         ${letters[optIdx]}
@@ -385,14 +370,14 @@ window.TEP.mockExam = (function () {
         if (passageBox) {
             passageBox.innerHTML = '';
             const heading = document.createElement('h4');
-            heading.className = 'font-bold text-sky-600 dark:text-sky-400 mb-2 border-b border-slate-200 dark:border-slate-800 pb-1';
+            heading.className = 'font-bold text-sky-600 dark:text-sky-400 mb-2 border-b border-slate-200 dark:border-slate-800 pb-1 text-sm uppercase tracking-wider';
             heading.textContent = passage.title;
             passageBox.appendChild(heading);
 
             passage.text.split('\n').forEach(line => {
                 if (line.trim()) {
                     const p = document.createElement('p');
-                    p.className = 'mb-2 text-slate-700 dark:text-slate-300 leading-relaxed';
+                    p.className = 'mb-2.5 text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base';
                     p.textContent = line;
                     passageBox.appendChild(p);
                 }
@@ -409,7 +394,7 @@ window.TEP.mockExam = (function () {
             q.options.forEach((optText, optIdx) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-3.5 md:p-4 rounded-xl text-left font-medium flex items-center gap-3 w-full border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3 w-full py-3';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0">
                         ${letters[optIdx]}
@@ -455,7 +440,7 @@ window.TEP.mockExam = (function () {
         }
     }
 
-    function updateQuizHeader(current, total, sectionTitle) {
+    function updateQuizHeader(current, total) {
         const currEl = document.getElementById('quiz-current-num');
         const totEl = document.getElementById('quiz-total-num');
         const barEl = document.getElementById('quiz-progress-bar');
@@ -475,13 +460,11 @@ window.TEP.mockExam = (function () {
         const totalEarned = partScores.grammar + partScores.error + partScores.cloze + partScores.reading;
         const stateData = window.TEP.state.data;
 
-        // Persist best mock score
         if (!stateData.quizScores.mock || totalEarned > stateData.quizScores.mock) {
             stateData.quizScores.mock = totalEarned;
             window.TEP.state.saveState();
         }
 
-        // Show Score Summary
         const scoreEl = document.getElementById('summary-score');
         const totalEl = document.getElementById('summary-total');
         const percentEl = document.getElementById('summary-percentage-display');
@@ -502,22 +485,22 @@ window.TEP.mockExam = (function () {
         if (subEl) {
             subEl.innerHTML = `
                 <div class="mb-3 font-semibold text-slate-800 dark:text-slate-200">${feedback}</div>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-left max-w-md mx-auto pt-2 border-t border-slate-200 dark:border-slate-800">
-                    <div class="p-2 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs text-left max-w-md mx-auto pt-3 border-t border-slate-200/60 dark:border-slate-800/60">
+                    <div class="p-2.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl border border-indigo-200/30">
                         <span class="font-bold text-indigo-600 dark:text-indigo-400 block">Grammar</span>
-                        <span>${partScores.grammar}/20</span>
+                        <span class="font-bold tabular-nums">${partScores.grammar}/20</span>
                     </div>
-                    <div class="p-2 bg-rose-50 dark:bg-rose-950/40 rounded-lg">
+                    <div class="p-2.5 bg-rose-50 dark:bg-rose-950/40 rounded-xl border border-rose-200/30">
                         <span class="font-bold text-rose-600 dark:text-rose-400 block">Error</span>
-                        <span>${partScores.error}/15</span>
+                        <span class="font-bold tabular-nums">${partScores.error}/15</span>
                     </div>
-                    <div class="p-2 bg-purple-50 dark:bg-purple-950/40 rounded-lg">
+                    <div class="p-2.5 bg-purple-50 dark:bg-purple-950/40 rounded-xl border border-purple-200/30">
                         <span class="font-bold text-purple-600 dark:text-purple-400 block">Cloze</span>
-                        <span>${partScores.cloze}/15</span>
+                        <span class="font-bold tabular-nums">${partScores.cloze}/15</span>
                     </div>
-                    <div class="p-2 bg-sky-50 dark:bg-sky-950/40 rounded-lg">
+                    <div class="p-2.5 bg-sky-50 dark:bg-sky-950/40 rounded-xl border border-sky-200/30">
                         <span class="font-bold text-sky-600 dark:text-sky-400 block">Reading</span>
-                        <span>${partScores.reading}/40</span>
+                        <span class="font-bold tabular-nums">${partScores.reading}/40</span>
                     </div>
                 </div>
             `;

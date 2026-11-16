@@ -1,5 +1,5 @@
 /**
- * ENGLISH TEP Master - Practice Quizzes Controller
+ * ENGLISH TEP Master - Practice Quizzes Controller (Bespoke Redesign)
  * Manages Grammar (20), Error (15), Cloze (15), Reading (40)
  */
 window.TEP = window.TEP || {};
@@ -107,10 +107,7 @@ window.TEP.quiz = (function () {
         if (barEl) barEl.style.width = `${((currentQIdx) / totalQuestions) * 100}%`;
         if (textEl) textEl.textContent = q.q;
 
-        if (expBox) {
-            expBox.classList.add('hidden');
-            expBox.classList.remove('slide-down-enter');
-        }
+        if (expBox) expBox.classList.add('hidden');
         if (nextBtn) nextBtn.classList.add('hidden');
 
         if (optsContainer) {
@@ -122,7 +119,7 @@ window.TEP.quiz = (function () {
                 const optText = q.options[origIdx];
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-4 rounded-2xl text-left font-medium flex items-center gap-3.5 w-full group border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all duration-150';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3.5 w-full group';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0 shadow-xs">
                         ${letters[displayIdx]}
@@ -150,20 +147,19 @@ window.TEP.quiz = (function () {
 
         if (isCorrect) {
             score++;
-            clickedBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+            clickedBtn.classList.add('correct');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             if (window.TEP.audio) window.TEP.audio.correct();
         } else {
-            clickedBtn.classList.add('incorrect', 'border-rose-500', 'bg-rose-50', 'dark:bg-rose-950/30');
+            clickedBtn.classList.add('incorrect');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
 
-            // Highlight correct one
             const correctDisplayIdx = optOrder.indexOf(q.ans);
             if (correctDisplayIdx !== -1 && btns[correctDisplayIdx]) {
                 const correctBtn = btns[correctDisplayIdx];
-                correctBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                correctBtn.classList.add('correct');
                 const cBadge = correctBtn.querySelector('span');
                 if (cBadge) cBadge.className = 'w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             }
@@ -176,7 +172,6 @@ window.TEP.quiz = (function () {
         if (expBox && expText) {
             expText.textContent = q.exp;
             expBox.classList.remove('hidden');
-            expBox.classList.add('slide-down-enter');
         }
 
         // Show next button
@@ -233,16 +228,13 @@ window.TEP.quiz = (function () {
                     const isAnswered = clozeAnswers[qNum] !== undefined;
                     const isCorrect = isAnswered && clozeAnswers[qNum] === q.ans;
 
-                    btn.className = "inline-flex items-center justify-center px-3 py-1 mx-1.5 my-1 rounded-xl text-sm md:text-base font-bold transition-all border shadow-xs cursor-pointer align-middle ";
+                    btn.className = "cloze-blank-pill ";
 
                     if (isAnswered) {
                         btn.textContent = q.options[clozeAnswers[qNum]];
-                        btn.className += isCorrect
-                            ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border-emerald-400"
-                            : "bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300 border-rose-400 line-through";
+                        btn.className += isCorrect ? "answered-correct" : "answered-wrong";
                     } else {
-                        btn.innerHTML = `<i class="fas fa-edit mr-1 text-xs opacity-60"></i> Q.${qNum}`;
-                        btn.className += "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700 hover:bg-indigo-100 hover:scale-105 cloze-btn-unanswered";
+                        btn.innerHTML = `<i class="fas fa-edit mr-1 text-[10px] opacity-70"></i> Q.${qNum}`;
                     }
 
                     btn.onclick = () => openClozeModal(qNum);
@@ -295,7 +287,7 @@ window.TEP.quiz = (function () {
                 const optText = q.options[origIdx];
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-3.5 rounded-xl text-left font-medium flex items-center gap-3 w-full border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3 w-full py-3';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0">
                         ${letters[displayIdx]}
@@ -306,10 +298,10 @@ window.TEP.quiz = (function () {
                 if (isAnswered) {
                     btn.disabled = true;
                     if (origIdx === q.ans) {
-                        btn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                        btn.classList.add('correct');
                         btn.querySelector('span').className = 'w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
                     } else if (origIdx === clozeAnswers[qNum]) {
-                        btn.classList.add('incorrect', 'border-rose-500', 'bg-rose-50', 'dark:bg-rose-950/30');
+                        btn.classList.add('incorrect');
                         btn.querySelector('span').className = 'w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
                     }
                 } else {
@@ -352,12 +344,12 @@ window.TEP.quiz = (function () {
         }
 
         if (isCorrect) {
-            clickedBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+            clickedBtn.classList.add('correct');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             if (window.TEP.audio) window.TEP.audio.correct();
         } else {
-            clickedBtn.classList.add('incorrect', 'border-rose-500', 'bg-rose-50', 'dark:bg-rose-950/30');
+            clickedBtn.classList.add('incorrect');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
 
@@ -366,7 +358,7 @@ window.TEP.quiz = (function () {
             const btns = optsContainer.querySelectorAll('button');
             if (correctDisplayIdx !== -1 && btns[correctDisplayIdx]) {
                 const cBtn = btns[correctDisplayIdx];
-                cBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                cBtn.classList.add('correct');
                 const cBadge = cBtn.querySelector('span');
                 if (cBadge) cBadge.className = 'w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             }
@@ -378,7 +370,6 @@ window.TEP.quiz = (function () {
         if (expBox && expText) {
             expText.textContent = q.exp;
             expBox.classList.remove('hidden');
-            expBox.classList.add('slide-down-enter');
         }
 
         const closeBtn = document.getElementById('cloze-modal-close-btn');
@@ -410,7 +401,6 @@ window.TEP.quiz = (function () {
         const passage = readingPassages[activeReadingPassageIdx];
         const q = passage.questions[activeReadingQIdx];
 
-        // Global question index
         let globalQIdx = 0;
         for (let i = 0; i < activeReadingPassageIdx; i++) {
             globalQIdx += readingPassages[i].questions.length;
@@ -436,14 +426,14 @@ window.TEP.quiz = (function () {
         if (passageBox) {
             passageBox.innerHTML = '';
             const heading = document.createElement('h4');
-            heading.className = 'font-bold text-indigo-600 dark:text-indigo-400 mb-2 border-b border-slate-200 dark:border-slate-800 pb-1';
+            heading.className = 'font-bold text-sky-600 dark:text-sky-400 mb-2 border-b border-slate-200 dark:border-slate-800 pb-1 text-sm uppercase tracking-wider';
             heading.textContent = passage.title;
             passageBox.appendChild(heading);
 
             passage.text.split('\n').forEach(line => {
                 if (line.trim()) {
                     const p = document.createElement('p');
-                    p.className = 'mb-2 text-slate-700 dark:text-slate-300 leading-relaxed';
+                    p.className = 'mb-2.5 text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base';
                     p.textContent = line;
                     passageBox.appendChild(p);
                 }
@@ -452,10 +442,7 @@ window.TEP.quiz = (function () {
 
         if (qBox) qBox.textContent = q.q;
 
-        if (expBox) {
-            expBox.classList.add('hidden');
-            expBox.classList.remove('slide-down-enter');
-        }
+        if (expBox) expBox.classList.add('hidden');
         if (nextBtn) nextBtn.classList.add('hidden');
 
         if (optsContainer) {
@@ -467,7 +454,7 @@ window.TEP.quiz = (function () {
                 const optText = q.options[origIdx];
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'quiz-option surface-solid p-3.5 md:p-4 rounded-xl text-left font-medium flex items-center gap-3 w-full border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all';
+                btn.className = 'quiz-choice-card text-left font-medium flex items-center gap-3 w-full py-3';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
                         ${letters[displayIdx]}
@@ -497,19 +484,19 @@ window.TEP.quiz = (function () {
 
         if (isCorrect) {
             score++;
-            clickedBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+            clickedBtn.classList.add('correct');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             if (window.TEP.audio) window.TEP.audio.correct();
         } else {
-            clickedBtn.classList.add('incorrect', 'border-rose-500', 'bg-rose-50', 'dark:bg-rose-950/30');
+            clickedBtn.classList.add('incorrect');
             const badge = clickedBtn.querySelector('span');
             if (badge) badge.className = 'w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
 
             const correctDisplayIdx = optOrder.indexOf(q.ans);
             if (correctDisplayIdx !== -1 && btns[correctDisplayIdx]) {
                 const cBtn = btns[correctDisplayIdx];
-                cBtn.classList.add('correct', 'border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-950/30');
+                cBtn.classList.add('correct');
                 const cBadge = cBtn.querySelector('span');
                 if (cBadge) cBadge.className = 'w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-sm shrink-0';
             }
@@ -521,7 +508,6 @@ window.TEP.quiz = (function () {
         if (expBox && expText) {
             expText.textContent = q.exp;
             expBox.classList.remove('hidden');
-            expBox.classList.add('slide-down-enter');
         }
 
         const nextBtn = document.getElementById('reading-next-btn');

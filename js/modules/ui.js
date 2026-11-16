@@ -1,5 +1,5 @@
 /**
- * ENGLISH TEP Master - UI Controller & View Navigation
+ * ENGLISH TEP Master - UI Controller & View Navigation (Bespoke Redesign)
  */
 window.TEP = window.TEP || {};
 
@@ -11,7 +11,6 @@ window.TEP.ui = (function () {
         const lang = (window.TEP.state && window.TEP.state.data && window.TEP.state.data.lang) || 'th';
         const dict = window.TEP.i18n && window.TEP.i18n[lang];
         if (dict && dict[key] !== undefined) return dict[key];
-        // fallback to english
         if (window.TEP.i18n && window.TEP.i18n.en && window.TEP.i18n.en[key] !== undefined) {
             return window.TEP.i18n.en[key];
         }
@@ -40,12 +39,17 @@ window.TEP.ui = (function () {
             langBtn.setAttribute('title', lang === 'en' ? 'Switch to Thai' : 'เปลี่ยนเป็นภาษาอังกฤษ');
         }
 
-        // Sound toggle button title
+        // Sound toggle button icon
         const soundBtn = document.getElementById('sound-toggle-btn');
         if (soundBtn) {
             const isMuted = !window.TEP.audio.isEnabled();
             soundBtn.setAttribute('title', isMuted ? t('sound_off') : t('sound_on'));
             soundBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            if (isMuted) {
+                soundBtn.classList.add('text-rose-500', 'opacity-80');
+            } else {
+                soundBtn.classList.remove('text-rose-500', 'opacity-80');
+            }
         }
     }
 
@@ -63,18 +67,11 @@ window.TEP.ui = (function () {
             root.classList.remove('dark');
         }
 
-        // Update theme toggle buttons UI
-        ['light', 'system', 'dark'].forEach(m => {
-            const btn = document.getElementById(`theme-btn-${m}`);
-            if (btn) {
-                btn.setAttribute('aria-pressed', theme === m ? 'true' : 'false');
-                if (theme === m) {
-                    btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-400', 'shadow-sm');
-                } else {
-                    btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-400', 'shadow-sm');
-                }
-            }
-        });
+        // Theme toggle icon update
+        const themeIcon = document.getElementById('theme-toggle-icon');
+        if (themeIcon) {
+            themeIcon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        }
     }
 
     function showToast(message, type = "success") {
@@ -175,13 +172,10 @@ window.TEP.ui = (function () {
             const hours = Math.floor((diff % 86400000) / 3600000);
             const mins = Math.floor((diff % 3600000) / 60000);
 
-            const elDays = document.getElementById('cd-days');
-            const elHours = document.getElementById('cd-hours');
-            const elMins = document.getElementById('cd-mins');
-
-            if (elDays) elDays.textContent = days.toString().padStart(2, '0');
-            if (elHours) elHours.textContent = hours.toString().padStart(2, '0');
-            if (elMins) elMins.textContent = mins.toString().padStart(2, '0');
+            const daysPill = document.getElementById('header-countdown-pill');
+            if (daysPill) {
+                daysPill.innerHTML = `<i class="fas fa-calendar-alt text-amber-500 mr-1.5"></i> <span>อีก ${days} วัน (${days}d ${hours}h)</span>`;
+            }
         }
 
         update();
@@ -192,8 +186,13 @@ window.TEP.ui = (function () {
         applyI18n();
 
         const stateData = window.TEP.state.data;
+        const currentPIN = window.TEP.state.currentPIN || "STUDENT";
         const flashcards = window.TEP.flashcardsData || [];
         const totalCards = flashcards.length; // 48
+
+        // Update profile displays
+        const pinDisplays = document.querySelectorAll('.user-pin-label');
+        pinDisplays.forEach(el => el.textContent = currentPIN);
 
         let mastered = 0, learning = 0, unsure = 0;
         flashcards.forEach(card => {
@@ -225,7 +224,7 @@ window.TEP.ui = (function () {
         const quizPercentage = Math.round((totalUserQuiz / totalQuizQuestions) * 100);
         const mockPercentage = Math.round((userMock / maxMockScore) * 100);
 
-        // Overall Weighted Completion: (Mastered Cards + Total Quiz Points + Mock Score) / (48 + 90 + 90)
+        // Overall Weighted Completion
         const grandTotal = totalCards + totalQuizQuestions + maxMockScore;
         const userEarned = mastered + totalUserQuiz + userMock;
         const overallPercentage = Math.min(100, Math.round((userEarned / grandTotal) * 100));
@@ -246,35 +245,37 @@ window.TEP.ui = (function () {
         setVal('prog-txt-training', `${quizPercentage}%`);
         setVal('prog-txt-mock', `${mockPercentage}%`);
 
-        // Update greeting
+        // Greeting
         const hour = new Date().getHours();
         const greeting = hour >= 5 && hour < 12
             ? t('greeting_morning')
             : hour >= 12 && hour < 17
                 ? t('greeting_afternoon')
                 : t('greeting_evening');
-        setVal('greeting-text', greeting);
+        setVal('greeting-text', `${greeting} ${currentPIN}`);
 
         // Animate mini bars
         setTimeout(() => {
             const barFlash = document.getElementById('prog-bar-flashcard');
             const barTrain = document.getElementById('prog-bar-training');
             const barMock = document.getElementById('prog-bar-mock');
+            const barOverall = document.getElementById('prog-bar-overall');
             if (barFlash) barFlash.style.width = `${flashPercentage}%`;
             if (barTrain) barTrain.style.width = `${quizPercentage}%`;
             if (barMock) barMock.style.width = `${mockPercentage}%`;
+            if (barOverall) barOverall.style.width = `${overallPercentage}%`;
         }, 80);
 
-        // Animate circular ring
+        // Circular ring
         const ring = document.getElementById('progress-ring-circle');
         if (ring) {
             ring.style.transition = 'none';
             ring.setAttribute('stroke-dashoffset', '100');
-            ring.getBoundingClientRect(); // force reflow
+            ring.getBoundingClientRect();
             requestAnimationFrame(() => {
                 ring.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 ring.setAttribute('stroke-dashoffset', (100 - overallPercentage).toString());
-                ring.style.stroke = overallPercentage >= 90 ? 'var(--color-success)' : 'var(--color-primary)';
+                ring.style.stroke = overallPercentage >= 90 ? 'var(--emerald)' : 'var(--accent)';
             });
         }
 
@@ -282,7 +283,7 @@ window.TEP.ui = (function () {
         const btnContinue = document.getElementById('btn-continue-learning');
         if (btnContinue) {
             if (Object.keys(stateData.cardProgress).length === 0 && stateData.currentCardIndex === 0) {
-                btnContinue.innerHTML = `<i class="fas fa-play mr-2 text-xs"></i> <span>${t('btn_start_flashcard')}</span>`;
+                btnContinue.innerHTML = `<span>${t('btn_start_flashcard')}</span> <i class="fas fa-arrow-right text-xs ml-1.5"></i>`;
                 btnContinue.onclick = () => window.TEP.ui.navigateTo('view-flashcard-menu');
             } else {
                 const currentCard = flashcards[stateData.currentCardIndex];
@@ -294,7 +295,7 @@ window.TEP.ui = (function () {
                     'reading_facts': t('fc_read_fact_title')
                 };
                 const catName = catNames[cat] || 'Flashcards';
-                btnContinue.innerHTML = `<i class="fas fa-redo-alt mr-2 text-xs"></i> <span>${t('btn_resume_flashcard')} (${catName})</span>`;
+                btnContinue.innerHTML = `<span>${t('btn_resume_flashcard')} (${catName})</span> <i class="fas fa-redo-alt text-xs ml-1.5"></i>`;
                 btnContinue.onclick = () => window.TEP.flashcards.resume();
             }
         }

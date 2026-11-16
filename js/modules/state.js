@@ -7,6 +7,7 @@ window.TEP = window.TEP || {};
 window.TEP.state = (function () {
     const SCHEMA_VERSION = 3;
     const STORAGE_PREFIX = 'yru-tep-state-';
+    const ACTIVE_PROFILE_KEY = 'yru-tep-active-profile';
 
     let currentPIN = null;
     let appState = {
@@ -58,9 +59,30 @@ window.TEP.state = (function () {
         return newData;
     }
 
+    function initProfile() {
+        let pin = null;
+        try {
+            pin = localStorage.getItem(ACTIVE_PROFILE_KEY);
+        } catch (e) {}
+
+        if (!pin) {
+            const existing = listProfiles();
+            if (existing.length > 0) {
+                pin = existing[0];
+            } else {
+                pin = "STUDENT";
+            }
+        }
+        return loadProfile(pin);
+    }
+
     function loadProfile(pin) {
-        if (!pin) return;
+        if (!pin) pin = "STUDENT";
         currentPIN = pin.trim().toUpperCase().substring(0, 20);
+        try {
+            localStorage.setItem(ACTIVE_PROFILE_KEY, currentPIN);
+        } catch (e) {}
+
         const storageKey = STORAGE_PREFIX + currentPIN;
         let loaded = null;
 
@@ -136,7 +158,10 @@ window.TEP.state = (function () {
         try {
             localStorage.removeItem(STORAGE_PREFIX + pin.toUpperCase());
             if (currentPIN === pin.toUpperCase()) {
-                currentPIN = null;
+                const profiles = listProfiles();
+                currentPIN = profiles.length > 0 ? profiles[0] : "STUDENT";
+                try { localStorage.setItem(ACTIVE_PROFILE_KEY, currentPIN); } catch (e) {}
+                loadProfile(currentPIN);
             }
         } catch (e) {
             console.error('Error removing profile:', e);
@@ -217,6 +242,7 @@ window.TEP.state = (function () {
     return {
         get currentPIN() { return currentPIN; },
         get data() { return appState; },
+        initProfile,
         listProfiles,
         loadProfile,
         saveState,

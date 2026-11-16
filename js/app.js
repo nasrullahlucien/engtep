@@ -1,5 +1,5 @@
 /**
- * ENGLISH TEP Master - Main Application Bootstrapper
+ * ENGLISH TEP Master - Main Application Bootstrapper (Bespoke Redesign)
  */
 window.TEP = window.TEP || {};
 
@@ -8,35 +8,46 @@ window.TEP = window.TEP || {};
     let profileToDelete = null;
 
     function init() {
+        // Initialize profile automatically without blocking user
+        window.TEP.state.initProfile();
+
         renderProfileSelect();
         window.TEP.ui.initCountdown();
         window.TEP.flashcards.initGestures();
         setupGlobalEvents();
 
-        // Check if there are existing profiles to auto-suggest
-        const profiles = window.TEP.state.listProfiles();
-        if (profiles.length > 0) {
-            const selectEl = document.getElementById('auth-profile-select');
-            if (selectEl) selectEl.value = profiles[0];
-        }
+        window.TEP.ui.applyTheme();
+        window.TEP.ui.renderDashboard();
     }
 
     function renderProfileSelect() {
         const profiles = window.TEP.state.listProfiles();
         const container = document.getElementById('profile-selection-container');
         const select = document.getElementById('auth-profile-select');
+        const currentPIN = window.TEP.state.currentPIN;
 
         if (!container || !select) return;
 
         if (profiles.length > 0) {
             container.classList.remove('hidden');
-            select.innerHTML = profiles.map(p => `<option value="${p}">${p}</option>`).join('');
+            select.innerHTML = profiles.map(p => `<option value="${p}" ${p === currentPIN ? 'selected' : ''}>${p}</option>`).join('');
         } else {
             container.classList.add('hidden');
         }
     }
 
-    function handleLogin(e) {
+    function openProfileModal() {
+        renderProfileSelect();
+        const m = document.getElementById('auth-modal');
+        if (m) m.classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+        const m = document.getElementById('auth-modal');
+        if (m) m.classList.add('hidden');
+    }
+
+    function handleProfileSwitchOrAdd(e) {
         if (e) e.preventDefault();
 
         const inputEl = document.getElementById('auth-pin-input');
@@ -56,50 +67,24 @@ window.TEP = window.TEP || {};
 
         rawPIN = rawPIN.substring(0, 20).toUpperCase();
 
-        const btnEl = document.getElementById('auth-submit-btn');
-        if (btnEl) {
-            btnEl.disabled = true;
-            btnEl.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Loading...';
+        try {
+            window.TEP.state.loadProfile(rawPIN);
+            closeProfileModal();
+            window.TEP.ui.renderDashboard();
+            window.TEP.ui.showToast(`สลับโปรไฟล์เป็น ${rawPIN} แล้ว`, "success");
+            if (window.TEP.audio) window.TEP.audio.complete();
+            if (inputEl) inputEl.value = '';
+        } catch (err) {
+            console.error("Profile error:", err);
+            alert("Error loading profile: " + err.message);
         }
-
-        setTimeout(() => {
-            try {
-                window.TEP.state.loadProfile(rawPIN);
-
-                // Update UI PIN displays
-                const headerPin = document.getElementById('header-pin-display');
-                const resetPin = document.getElementById('reset-pin-display');
-                if (headerPin) headerPin.textContent = rawPIN;
-                if (resetPin) resetPin.textContent = rawPIN;
-
-                // Close login modal & reveal app
-                const authModal = document.getElementById('auth-modal');
-                const mainApp = document.getElementById('main-app-container');
-                if (authModal) authModal.classList.add('hidden');
-                if (mainApp) mainApp.classList.remove('hidden');
-
-                window.TEP.ui.applyTheme();
-                window.TEP.ui.renderDashboard();
-                window.TEP.ui.showToast(`ยินดีต้อนรับ ${rawPIN}`, "success");
-                if (window.TEP.audio) window.TEP.audio.complete();
-
-            } catch (err) {
-                console.error("Login initialization error:", err);
-                alert("Error loading profile: " + err.message);
-            } finally {
-                if (btnEl) {
-                    btnEl.disabled = false;
-                    btnEl.innerHTML = `<span>${window.TEP.ui.t('auth_btn')}</span> <i class="fas fa-arrow-right ml-2 text-sm"></i>`;
-                }
-            }
-        }, 120);
     }
 
     function setupGlobalEvents() {
         // Form submit
         const authForm = document.getElementById('auth-form');
         if (authForm) {
-            authForm.addEventListener('submit', handleLogin);
+            authForm.addEventListener('submit', handleProfileSwitchOrAdd);
         }
 
         // Keyboard navigation
@@ -135,7 +120,7 @@ window.TEP = window.TEP || {};
     }
 
     function closeAllModals() {
-        ['delete-profile-modal', 'reset-modal', 'import-modal', 'abort-mock-modal', 'cloze-modal'].forEach(id => {
+        ['auth-modal', 'delete-profile-modal', 'reset-modal', 'import-modal', 'abort-mock-modal', 'cloze-modal'].forEach(id => {
             const m = document.getElementById(id);
             if (m) m.classList.add('hidden');
         });
@@ -162,6 +147,7 @@ window.TEP = window.TEP || {};
         if (profileToDelete) {
             window.TEP.state.deleteProfile(profileToDelete);
             renderProfileSelect();
+            window.TEP.ui.renderDashboard();
             window.TEP.ui.showToast(`ลบโปรไฟล์ ${profileToDelete} สำเร็จ`, "info");
         }
         closeDeleteProfileModal();
@@ -234,17 +220,16 @@ window.TEP = window.TEP || {};
         const enabled = window.TEP.audio.toggleSound();
         window.TEP.state.data.sound = enabled;
         window.TEP.state.saveState();
-        const btn = document.getElementById('sound-toggle-btn');
-        if (btn) {
-            btn.innerHTML = enabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
-            btn.setAttribute('title', enabled ? window.TEP.ui.t('sound_on') : window.TEP.ui.t('sound_off'));
-        }
+        window.TEP.ui.applyI18n();
         window.TEP.ui.showToast(enabled ? window.TEP.ui.t('sound_on') : window.TEP.ui.t('sound_off'), "info");
     }
 
-    function setTheme(theme) {
-        if (!['light', 'dark', 'system'].includes(theme)) return;
-        window.TEP.state.data.theme = theme;
+    function toggleTheme() {
+        const current = window.TEP.state.data.theme;
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = current === 'dark' || (current === 'system' && prefersDark);
+        const next = isDark ? 'light' : 'dark';
+        window.TEP.state.data.theme = next;
         window.TEP.state.saveState();
         window.TEP.ui.applyTheme();
     }
@@ -252,7 +237,9 @@ window.TEP = window.TEP || {};
     // Expose helpers to window.TEP
     window.TEP.app = {
         init,
-        handleLogin,
+        openProfileModal,
+        closeProfileModal,
+        handleProfileSwitchOrAdd,
         openDeleteProfileModal,
         closeDeleteProfileModal,
         confirmDeleteProfile,
@@ -264,7 +251,7 @@ window.TEP = window.TEP || {};
         confirmImport,
         toggleLanguage,
         toggleSound,
-        setTheme
+        toggleTheme
     };
 
     window.addEventListener('DOMContentLoaded', init);
