@@ -99,6 +99,7 @@ window.TEP = window.TEP || {};
                 return;
             }
 
+            // Flashcards view shortcuts
             const flashcardsView = document.getElementById('view-flashcards');
             if (flashcardsView && !flashcardsView.classList.contains('hidden')) {
                 if (e.code === 'Space' || e.key === 'Enter') {
@@ -114,6 +115,46 @@ window.TEP = window.TEP || {};
                     window.TEP.flashcards.setRating('learning');
                 } else if (e.key === '3' || e.code === 'Numpad3') {
                     window.TEP.flashcards.setRating('mastered');
+                }
+            }
+
+            // Single choice quiz shortcuts (Grammar / Error)
+            const quizView = document.getElementById('view-quiz');
+            if (quizView && !quizView.classList.contains('hidden')) {
+                if (['1', '2', '3', '4'].includes(e.key)) {
+                    const idx = parseInt(e.key, 10) - 1;
+                    const btns = document.querySelectorAll('#quiz-options-container button');
+                    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+                } else if (['a', 'b', 'c', 'd'].includes(e.key.toLowerCase())) {
+                    const idx = { a: 0, b: 1, c: 2, d: 3 }[e.key.toLowerCase()];
+                    const btns = document.querySelectorAll('#quiz-options-container button');
+                    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+                } else if (e.code === 'Space' || e.key === 'Enter') {
+                    const nextBtn = document.getElementById('quiz-next-btn');
+                    if (nextBtn && !nextBtn.classList.contains('hidden')) {
+                        e.preventDefault();
+                        nextBtn.click();
+                    }
+                }
+            }
+
+            // Reading quiz shortcuts
+            const readingView = document.getElementById('view-reading');
+            if (readingView && !readingView.classList.contains('hidden')) {
+                if (['1', '2', '3', '4'].includes(e.key)) {
+                    const idx = parseInt(e.key, 10) - 1;
+                    const btns = document.querySelectorAll('#reading-options-container button');
+                    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+                } else if (['a', 'b', 'c', 'd'].includes(e.key.toLowerCase())) {
+                    const idx = { a: 0, b: 1, c: 2, d: 3 }[e.key.toLowerCase()];
+                    const btns = document.querySelectorAll('#reading-options-container button');
+                    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+                } else if (e.code === 'Space' || e.key === 'Enter') {
+                    const nextBtn = document.getElementById('reading-next-btn');
+                    if (nextBtn && !nextBtn.classList.contains('hidden')) {
+                        e.preventDefault();
+                        nextBtn.click();
+                    }
                 }
             }
         });

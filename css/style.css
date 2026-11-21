@@ -377,5 +377,65 @@ body {
 }
 
 /* Custom Scrollbars */
-::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--theme-primary); }
+
+/* ==========================================================================
+   Desktop Responsive Enhancements (Screen width >= 1024px)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    body {
+        padding-bottom: 2.5rem;
+    }
+
+    /* Desktop Sidebar Styles */
+    .desktop-sidebar {
+        background: var(--bg-card);
+        border-right: 1px solid var(--border-light);
+    }
+
+    .desktop-sidebar-btn {
+        color: var(--text-muted);
+        background: transparent;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .desktop-sidebar-btn:hover {
+        color: var(--theme-primary);
+        background: var(--theme-primary-subtle);
+        transform: translateX(2px);
+    }
+
+    .desktop-sidebar-btn.active {
+        color: #ffffff;
+        background: var(--theme-primary);
+        box-shadow: 0 6px 16px -2px rgba(5, 150, 105, 0.35);
+    }
+
+    .desktop-sidebar-btn.active i {
+        color: #ffffff;
+    }
+
+    /* Micro-interactions for cards on Desktop */
+    .quick-action-item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(5, 150, 105, 0.3);
+    }
+
+    .featured-event-card:hover {
+        border-color: rgba(5, 150, 105, 0.35);
+        box-shadow: var(--shadow-md);
+    }
+
+    .status-card-pink:hover {
+        box-shadow: 0 8px 20px -4px rgba(225, 29, 72, 0.12);
+    }
+
+    .status-card-mint:hover {
+        box-shadow: 0 8px 20px -4px rgba(5, 150, 105, 0.15);
+    }
+}

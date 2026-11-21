@@ -160,21 +160,35 @@ window.TEP.ui = (function () {
 
     function updateBottomNav(viewId) {
         const navMap = {
-            'view-lobby': 'tab-nav-home',
-            'view-flashcard-menu': 'tab-nav-cards',
-            'view-flashcards': 'tab-nav-cards',
-            'view-practice-menu': 'tab-nav-quiz',
-            'view-quiz': 'tab-nav-quiz',
-            'view-cloze': 'tab-nav-quiz',
-            'view-reading': 'tab-nav-quiz',
-            'view-quiz-summary': 'tab-nav-quiz'
+            'view-lobby': { tab: 'tab-nav-home', sidebar: 'sidebar-nav-home' },
+            'view-flashcard-menu': { tab: 'tab-nav-cards', sidebar: 'sidebar-nav-cards' },
+            'view-flashcards': { tab: 'tab-nav-cards', sidebar: 'sidebar-nav-cards' },
+            'view-practice-menu': { tab: 'tab-nav-quiz', sidebar: 'sidebar-nav-quiz' },
+            'view-quiz': { tab: 'tab-nav-quiz', sidebar: 'sidebar-nav-quiz' },
+            'view-cloze': { tab: 'tab-nav-quiz', sidebar: 'sidebar-nav-quiz' },
+            'view-reading': { tab: 'tab-nav-quiz', sidebar: 'sidebar-nav-quiz' },
+            'view-quiz-summary': { tab: 'tab-nav-quiz', sidebar: 'sidebar-nav-quiz' }
         };
 
-        const activeId = navMap[viewId] || 'tab-nav-home';
+        const activeTarget = navMap[viewId] || { tab: 'tab-nav-home', sidebar: 'sidebar-nav-home' };
+
+        // Mobile bottom nav buttons
         ['tab-nav-home', 'tab-nav-cards', 'tab-nav-quiz', 'tab-nav-mock', 'tab-nav-profile'].forEach(id => {
             const btn = document.getElementById(id);
             if (btn) {
-                if (id === activeId) {
+                if (id === activeTarget.tab) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            }
+        });
+
+        // Desktop sidebar buttons
+        ['sidebar-nav-home', 'sidebar-nav-cards', 'sidebar-nav-quiz', 'sidebar-nav-mock', 'sidebar-nav-profile'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                if (id === activeTarget.sidebar) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -201,6 +215,11 @@ window.TEP.ui = (function () {
             const daysPill = document.getElementById('header-countdown-pill');
             if (daysPill) {
                 daysPill.innerHTML = `<i class="fas fa-calendar-alt text-amber-500 mr-1.5"></i> <span>อีก ${days} วัน (${days}d ${hours}h)</span>`;
+            }
+
+            const sideCountdown = document.getElementById('sidebar-countdown-text');
+            if (sideCountdown) {
+                sideCountdown.textContent = `อีก ${days} วัน (${days}d ${hours}h)`;
             }
         }
 
