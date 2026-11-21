@@ -154,7 +154,33 @@ window.TEP.ui = (function () {
                 el.setAttribute('aria-hidden', 'true');
             }
         });
+        updateBottomNav(viewId);
         window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    function updateBottomNav(viewId) {
+        const navMap = {
+            'view-lobby': 'tab-nav-home',
+            'view-flashcard-menu': 'tab-nav-cards',
+            'view-flashcards': 'tab-nav-cards',
+            'view-practice-menu': 'tab-nav-quiz',
+            'view-quiz': 'tab-nav-quiz',
+            'view-cloze': 'tab-nav-quiz',
+            'view-reading': 'tab-nav-quiz',
+            'view-quiz-summary': 'tab-nav-quiz'
+        };
+
+        const activeId = navMap[viewId] || 'tab-nav-home';
+        ['tab-nav-home', 'tab-nav-cards', 'tab-nav-quiz', 'tab-nav-mock', 'tab-nav-profile'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                if (id === activeId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            }
+        });
     }
 
     function initCountdown() {

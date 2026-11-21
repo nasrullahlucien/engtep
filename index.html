@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>ENGLISH TEP Master - เตรียมสอบอังกฤษ TEP ครบวงจร</title>
+    <title>ENGLISH TEP Master - ระบบเตรียมสอบภาษาอังกฤษครบวงจร</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,12 +13,12 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca'
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b'
                         }
                     }
                 }
@@ -32,14 +32,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Bespoke Minimalist Stylesheet -->
+    <!-- Mobile-First App Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="relative antialiased selection:bg-indigo-500 selection:text-white">
+<body class="relative antialiased selection:bg-emerald-600 selection:text-white">
 
     <!-- Mock Exam Global Floating Timer -->
-    <div id="mock-timer-display" class="hidden fixed top-5 right-5 z-[70] px-4 py-2 rounded-full shadow-2xl font-bold text-indigo-600 dark:text-indigo-400 text-sm sm:text-base tabular-nums flex items-center gap-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 transition-all duration-300">
-        <i class="fas fa-clock animate-pulse text-indigo-500"></i>
+    <div id="mock-timer-display" class="hidden fixed top-3 right-3 z-[70] px-3.5 py-1.5 rounded-full shadow-xl font-bold text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm tabular-nums flex items-center gap-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-emerald-500/30 transition-all duration-300">
+        <i class="fas fa-clock animate-pulse text-emerald-600"></i>
         <span id="mock-timer-text">02:00:00</span>
     </div>
 
@@ -47,446 +47,382 @@
     <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <!-- Global Floating Toast Notification -->
-    <div id="toast-container" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 hidden" role="alert">
-        <div class="px-6 py-3 rounded-full shadow-2xl text-sm font-semibold flex items-center gap-3 toast-enter border border-slate-200/80 dark:border-slate-700/80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl text-slate-800 dark:text-slate-100">
-            <i class="fas fa-check-circle text-emerald-500 text-lg" id="toast-icon"></i>
+    <div id="toast-container" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 hidden" role="alert">
+        <div class="px-5 py-2.5 rounded-full shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2.5 toast-enter border border-slate-200/80 dark:border-slate-700/80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl text-slate-800 dark:text-slate-100">
+            <i class="fas fa-check-circle text-emerald-500 text-base" id="toast-icon"></i>
             <span id="toast-message">แจ้งเตือนสำเร็จ</span>
         </div>
     </div>
 
-    <!-- ================= FLOATING NAVIGATION BAR ================= -->
-    <header class="sticky top-0 z-40 w-full nav-blur border-b border-slate-200/50 dark:border-white/5 py-3.5 px-4 sm:px-6 lg:px-8 mb-6">
-        <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
-            <!-- Brand Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.TEP.ui.navigateTo('view-lobby')">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white text-lg shadow-md shadow-indigo-500/20">
-                    <i class="fas fa-graduation-cap"></i>
+    <!-- ================= 1. ส่วนบน (TOP APP HEADER) ================= -->
+    <header class="app-top-header px-4 py-2.5">
+        <div class="max-w-md sm:max-w-lg mx-auto flex items-center justify-between gap-2.5">
+            <!-- Brand Avatar & Title -->
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="window.TEP.ui.navigateTo('view-lobby')">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-emerald-600/20 shrink-0">
+                    ฮ
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-lg font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 leading-none">
-                        ENGLISH TEP
+                    <h1 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white leading-tight">
+                        แบบบันทึกเตรียมสอบ TEP
                     </h1>
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Master Edition</span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-none mt-0.5">
+                        ระบบเตรียมสอบและการฝึกทำข้อสอบ
+                    </p>
                 </div>
             </div>
 
-            <!-- Exam Countdown Pill (Header) -->
-            <div id="header-countdown-pill" class="hidden md:inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 tabular-nums">
-                <i class="fas fa-calendar-alt text-amber-500 mr-1.5"></i> <span>อีก 230 วัน (3 ต.ค. 2026)</span>
-            </div>
+            <!-- Top Right Action Controls (Flag, Audio/Theme, Shield) -->
+            <div class="flex items-center gap-1.5 shrink-0">
+                <!-- Language Flag Pill -->
+                <button id="lang-btn" type="button" onclick="window.TEP.app.toggleLanguage()" class="h-8 px-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 border border-slate-200/60 dark:border-slate-700 transition-colors btn-press" title="Toggle Language">
+                    <span>🇹🇭</span>
+                    <i class="fas fa-chevron-down text-[9px] opacity-60"></i>
+                </button>
 
-            <!-- Header Utilities (Sound, Lang, Theme, Profile) -->
-            <div class="flex items-center gap-2">
-                <!-- Sound Toggle -->
-                <button id="sound-toggle-btn" type="button" onclick="window.TEP.app.toggleSound()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors btn-press text-xs" title="Toggle Sound">
+                <!-- Sound / Refresh Toggle -->
+                <button id="sound-toggle-btn" type="button" onclick="window.TEP.app.toggleSound()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs border border-slate-200/60 dark:border-slate-700 transition-colors btn-press" title="Toggle Sound">
                     <i class="fas fa-volume-up"></i>
                 </button>
 
-                <!-- Language Toggle -->
-                <button id="lang-btn" type="button" onclick="window.TEP.app.toggleLanguage()" class="h-9 px-3 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors btn-press uppercase tracking-wider" title="Toggle Language">
-                    TH
-                </button>
-
                 <!-- Theme Toggle -->
-                <button type="button" onclick="window.TEP.app.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors btn-press text-xs" title="Toggle Theme">
+                <button type="button" onclick="window.TEP.app.toggleTheme()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs border border-slate-200/60 dark:border-slate-700 transition-colors btn-press" title="Toggle Theme">
                     <i id="theme-toggle-icon" class="fas fa-moon"></i>
                 </button>
 
-                <!-- Profile Avatar Chip (Clickable to switch profile) -->
-                <button type="button" onclick="window.TEP.app.openProfileModal()" class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200/50 dark:border-indigo-800/50 text-indigo-700 dark:text-indigo-300 text-xs font-bold transition-all btn-press shadow-xs ml-1">
-                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">
-                        <i class="fas fa-user"></i>
-                    </span>
-                    <span class="user-pin-label truncate max-w-[80px] sm:max-w-[120px]">STUDENT</span>
-                    <i class="fas fa-chevron-down text-[9px] opacity-60"></i>
+                <!-- Offline Shield Indicator (Clickable to open profile) -->
+                <button type="button" onclick="window.TEP.app.openProfileModal()" class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs border border-emerald-500/20 transition-colors btn-press" title="Offline Protected / Profile">
+                    <i class="fas fa-shield-alt"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ================= MAIN CONTAINER ================= -->
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 pb-12 w-full">
+    <!-- ================= 2. ส่วนตรงกลาง (MIDDLE CONTENT AREA) ================= -->
+    <div class="max-w-md sm:max-w-lg mx-auto px-4 pt-3.5 space-y-4 w-full">
 
-        <!-- ================= VIEW 1: BESPOKE LOBBY ================= -->
-        <main id="view-lobby" class="flex flex-col gap-8 fade-up">
+        <!-- ================= VIEW 1: LOBBY / HOME DASHBOARD ================= -->
+        <main id="view-lobby" class="space-y-4 fade-up">
             
-            <!-- Hero Card: Focused & Inspiring -->
-            <section class="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="flex-1 text-center md:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-3">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span data-i18n="badge_recommended">โหมดแนะนำสำหรับการเตรียมตัว</span>
+            <!-- 1) GREEN WALLET HERO CARD (เหมือนบัตรเขียวในภาพ) -->
+            <section class="hero-wallet-card p-5 sm:p-6 text-white">
+                <!-- Top Row: Icon + Label + Badge -->
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-1.5 text-xs sm:text-sm font-semibold opacity-95">
+                        <i class="fas fa-wallet text-sm"></i>
+                        <span>ความพร้อมสอบ TEP กองกลาง</span>
+                    </div>
+                    <div id="header-countdown-pill" class="px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-white/20 backdrop-blur-md border border-white/25 tabular-nums">
+                        สอบ 3 ต.ค. 2569
+                    </div>
+                </div>
+
+                <!-- Big Main Typography (like ฿505 in image) -->
+                <div class="flex items-baseline gap-1 my-2">
+                    <span class="text-2xl font-black opacity-90">฿</span>
+                    <span id="progress-percentage" class="text-4xl sm:text-5xl font-black tracking-tight tabular-nums">0</span>
+                    <span class="text-sm font-bold opacity-80 ml-1">คะแนนความพร้อม</span>
+                </div>
+
+                <!-- Sub-panels Row (like รายรับทั้งหมด / รายจ่ายกองกลาง) -->
+                <div class="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-white/15 text-xs">
+                    <div class="hero-sub-panel flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs font-bold">
+                            <i class="fas fa-arrow-trend-up"></i>
+                        </span>
+                        <div>
+                            <div class="opacity-80 text-[10px]">คลังอาวุธทั้งหมด</div>
+                            <div class="font-extrabold tabular-nums"><span id="prog-txt-flashcard">0%</span> (48 ข้อ)</div>
                         </div>
-                        <h2 id="greeting-text" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                            ยินดีต้อนรับสู่ ENGLISH TEP Master
-                        </h2>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl leading-relaxed">
-                            คลังเตรียมสอบอังกฤษ TEP ฉบับพรีเมียม สรุป 48 กฎเหล็กจุดตาย พร้อมลุยข้อสอบจริงครบ 90 ข้อเต็มรูปแบบ
+                    </div>
+
+                    <div class="hero-sub-panel flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs font-bold">
+                            <i class="fas fa-arrow-trend-down"></i>
+                        </span>
+                        <div>
+                            <div class="opacity-80 text-[10px]">ห้องซ้อมรบรวม</div>
+                            <div class="font-extrabold tabular-nums"><span id="prog-txt-training">0%</span> (90 ข้อ)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden overall progress bar reference for ui.js -->
+                <div class="hidden">
+                    <div id="prog-bar-overall"></div>
+                    <div id="prog-bar-flashcard"></div>
+                    <div id="prog-bar-training"></div>
+                    <div id="prog-bar-mock"></div>
+                    <span id="prog-txt-mock">0%</span>
+                </div>
+            </section>
+
+            <!-- 2) TWO STATUS CARDS (2 ช่องเหมือนในภาพ: สีชมพูอ่อน และ สีเขียวอ่อน) -->
+            <section class="grid grid-cols-2 gap-3">
+                <!-- Left Pink Card: ค้างชำระ / ค้างทบทวน -->
+                <div class="status-card-pink p-3.5 sm:p-4 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300">ค้างทบทวน</span>
+                        <span class="w-7 h-7 rounded-xl bg-rose-500/15 text-rose-600 flex items-center justify-center text-xs font-bold">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-black text-rose-600 tabular-nums leading-tight">
+                            <span id="stat-unsure">0</span> <span class="text-sm font-bold text-slate-600 dark:text-slate-400">ข้อ</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1">
+                            ไม่มั่นใจ: ควรฝึกซ้ำ
                         </p>
-
-                        <!-- Progress Bar & Primary CTA -->
-                        <div class="mt-5 w-full max-w-lg">
-                            <div class="flex items-center justify-between text-xs font-bold text-slate-400 mb-1.5">
-                                <span>ความคืบหน้าภาพรวม</span>
-                                <span class="text-indigo-600 dark:text-indigo-400 font-extrabold tabular-nums"><span id="prog-txt-flashcard" class="hidden">0%</span><span id="prog-txt-training" class="hidden">0%</span><span id="prog-txt-mock" class="hidden">0%</span></span>
-                            </div>
-                            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-2 overflow-hidden mb-6">
-                                <div id="prog-bar-overall" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Primary CTA Button -->
-                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                            <button id="btn-continue-learning" type="button" class="px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-2xl font-bold shadow-lg shadow-indigo-500/25 btn-press text-sm sm:text-base flex items-center gap-2">
-                                <span>เริ่มเรียน Flashcards</span>
-                                <i class="fas fa-arrow-right text-xs"></i>
-                            </button>
-                            <button type="button" onclick="window.TEP.ui.navigateTo('view-practice-menu')" class="px-5 py-3.5 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-2xl font-bold transition-colors btn-press text-sm">
-                                <i class="fas fa-dumbbell mr-1.5 text-xs text-purple-500"></i>
-                                <span data-i18n="mode_practice_title">ห้องซ้อมรบ</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Clean Radial Progress Gauge -->
-                    <div class="shrink-0 flex flex-col items-center justify-center p-4">
-                        <div class="w-28 h-28 sm:w-32 sm:h-32 relative">
-                            <svg viewBox="0 0 36 36" class="circular-chart w-full h-full drop-shadow-sm">
-                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                                <path id="progress-ring-circle" class="circle stroke-indigo-600" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                            </svg>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span id="progress-percentage" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white tabular-nums">0%</span>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5" data-i18n="stat_mastered">Mastery</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Minimalist Sub-Progress Chips -->
-                <div class="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-sm font-bold shrink-0">
-                            <i class="fas fa-check"></i>
+                <!-- Right Mint Card: สมาชิกทั้งหมด / จำได้แม่นยำ -->
+                <div class="status-card-mint p-3.5 sm:p-4 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300">จำได้แม่นยำ</span>
+                        <span class="w-7 h-7 rounded-xl bg-emerald-500/15 text-emerald-600 flex items-center justify-center text-xs font-bold">
+                            <i class="fas fa-user-check"></i>
                         </span>
-                        <div>
-                            <div class="text-lg font-black tabular-nums text-slate-900 dark:text-white leading-none" id="stat-mastered">0</div>
-                            <div class="text-[11px] font-semibold text-slate-400 mt-1" data-i18n="stat_mastered">จำได้แล้ว</div>
-                        </div>
                     </div>
-
-                    <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-sm font-bold shrink-0">
-                            <i class="fas fa-spinner"></i>
-                        </span>
-                        <div>
-                            <div class="text-lg font-black tabular-nums text-slate-900 dark:text-white leading-none" id="stat-learning">0</div>
-                            <div class="text-[11px] font-semibold text-slate-400 mt-1" data-i18n="stat_learning">กำลังฝึก</div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tabular-nums leading-tight">
+                            <span id="stat-mastered">0</span> <span class="text-sm font-bold text-slate-400">/ 48</span>
                         </div>
-                    </div>
-
-                    <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center text-sm font-bold shrink-0">
-                            <i class="fas fa-times"></i>
-                        </span>
-                        <div>
-                            <div class="text-lg font-black tabular-nums text-slate-900 dark:text-white leading-none" id="stat-unsure">0</div>
-                            <div class="text-[11px] font-semibold text-slate-400 mt-1" data-i18n="stat_unsure">ไม่มั่นใจ</div>
-                        </div>
-                    </div>
-
-                    <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-500 flex items-center justify-center text-sm font-bold shrink-0">
-                            <i class="fas fa-minus"></i>
-                        </span>
-                        <div>
-                            <div class="text-lg font-black tabular-nums text-slate-900 dark:text-white leading-none" id="stat-unattempted">48</div>
-                            <div class="text-[11px] font-semibold text-slate-400 mt-1" data-i18n="stat_unattempted">ยังไม่เริ่ม</div>
-                        </div>
+                        <p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">
+                            กำลังฝึก <span id="stat-learning" class="font-bold">0</span> ข้อ
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <!-- 3 Core Experiences (Bespoke Cards) -->
-            <section class="flex flex-col gap-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest" data-i18n="modes_title">
-                        โหมดการฝึกฝน
-                    </h3>
-                </div>
+            <!-- 3) QUICK ACTION MENU (เมนูลัด - 4 ปุ่มกลมตามภาพ) -->
+            <section class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/70 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-1.5">
+                    <span>เมนูลัด</span>
+                </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <!-- Experience 1: Flashcard Arsenal -->
-                    <div onclick="window.TEP.ui.navigateTo('view-flashcard-menu')" class="category-card cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-brain"></i>
-                                </span>
-                                <span class="chip bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-300 border border-indigo-200/40">
-                                    48 ทริคจำ
-                                </span>
-                            </div>
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="mode_arsenal_title">
-                                Flashcard Arsenal
-                            </h4>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed" data-i18n="mode_arsenal_desc">
-                                ท่องจำ 48 กฎเหล็กจุดตายทั้ง Grammar, Error และเทคนิคเจาะข้อสอบ Reading
-                            </p>
-                            <!-- Mode Progress -->
-                            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden mt-4">
-                                <div id="prog-bar-flashcard" class="bg-indigo-600 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
-                            </div>
+                <div class="grid grid-cols-4 gap-2">
+                    <!-- Button 1: Green Circle (รับเงิน -> Grammar) -->
+                    <div onclick="window.TEP.quiz.start('grammar')" class="quick-action-item">
+                        <div class="w-11 h-11 rounded-full bg-emerald-600 text-white flex items-center justify-center text-base shadow-sm mb-1.5">
+                            <i class="fas fa-arrow-down-left"></i>
                         </div>
-                        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
-                            <span>เริ่มท่องการ์ด</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">ไวยากรณ์</span>
+                        <span class="text-[10px] text-slate-400">20 ข้อ</span>
                     </div>
 
-                    <!-- Experience 2: Training Room -->
-                    <div class="category-card flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl">
-                                    <i class="fas fa-dumbbell"></i>
-                                </span>
-                                <span class="chip bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-300 border border-purple-200/40">
-                                    4 หมวดหมู่
-                                </span>
-                            </div>
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="mode_practice_title">
-                                Training Room
-                            </h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-2 leading-relaxed" data-i18n="mode_practice_desc">
-                                ซ้อมทำโจทย์แยกพาร์ท พร้อมเฉลยวิเคราะห์จุดตายทันที
-                            </p>
-                            <!-- Mode Progress -->
-                            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden mb-3.5">
-                                <div id="prog-bar-training" class="bg-purple-600 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-
-                            <!-- Quick Jump Chips -->
-                            <div class="grid grid-cols-2 gap-2 text-xs">
-                                <button type="button" onclick="window.TEP.quiz.start('grammar')" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-purple-50 dark:hover:bg-purple-950/40 text-slate-700 dark:text-slate-300 text-left font-semibold transition-colors flex items-center justify-between">
-                                    <span>Grammar</span>
-                                    <span class="text-[10px] text-purple-600 dark:text-purple-400 font-bold">20 ข้อ</span>
-                                </button>
-                                <button type="button" onclick="window.TEP.quiz.start('error')" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-700 dark:text-slate-300 text-left font-semibold transition-colors flex items-center justify-between">
-                                    <span>Error</span>
-                                    <span class="text-[10px] text-rose-600 dark:text-rose-400 font-bold">15 ข้อ</span>
-                                </button>
-                                <button type="button" onclick="window.TEP.quiz.start('cloze')" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 text-slate-700 dark:text-slate-300 text-left font-semibold transition-colors flex items-center justify-between">
-                                    <span>Cloze</span>
-                                    <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold">15 ข้อ</span>
-                                </button>
-                                <button type="button" onclick="window.TEP.quiz.start('reading')" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-sky-50 dark:hover:bg-sky-950/40 text-slate-700 dark:text-slate-300 text-left font-semibold transition-colors flex items-center justify-between">
-                                    <span>Reading</span>
-                                    <span class="text-[10px] text-sky-600 dark:text-sky-400 font-bold">40 ข้อ</span>
-                                </button>
-                            </div>
+                    <!-- Button 2: Red Circle (จ่ายเงิน -> Error) -->
+                    <div onclick="window.TEP.quiz.start('error')" class="quick-action-item">
+                        <div class="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center text-base shadow-sm mb-1.5">
+                            <i class="fas fa-arrow-up-right"></i>
                         </div>
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">หาจุดผิด</span>
+                        <span class="text-[10px] text-slate-400">15 ข้อ</span>
                     </div>
 
-                    <!-- Experience 3: The Battlefield -->
-                    <div onclick="window.TEP.mockExam.start()" class="category-card cursor-pointer group flex flex-col justify-between border-amber-500/20 hover:border-amber-500">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                    <i class="fas fa-trophy"></i>
-                                </span>
-                                <span class="chip bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border border-amber-200/40">
-                                    120 นาที • 90 ข้อ
-                                </span>
-                            </div>
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="mode_mock_title">
-                                The Battlefield
-                            </h4>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed" data-i18n="mode_mock_desc">
-                                ข้อสอบจำลองเสมือนจริง 90 ข้อเต็มเวลา ซ่อนเฉลยระหว่างทำ พร้อมออก Report คะแนนรายพาร์ท
-                            </p>
-                            <!-- Mode Progress -->
-                            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden mt-4">
-                                <div id="prog-bar-mock" class="bg-amber-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
-                            </div>
+                    <!-- Button 3: Blue Circle (เช็คชื่อ -> Cloze Test) -->
+                    <div onclick="window.TEP.quiz.start('cloze')" class="quick-action-item">
+                        <div class="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center text-base shadow-sm mb-1.5">
+                            <i class="fas fa-check-circle"></i>
                         </div>
-                        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
-                            <span>ลงสนามจริง</span>
-                            <i class="fas fa-arrow-right"></i>
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">เติมคำ</span>
+                        <span class="text-[10px] text-slate-400">15 ข้อ</span>
+                    </div>
+
+                    <!-- Button 4: Purple Circle (ตารางค้าง -> Reading) -->
+                    <div onclick="window.TEP.quiz.start('reading')" class="quick-action-item">
+                        <div class="w-11 h-11 rounded-full bg-purple-600 text-white flex items-center justify-center text-base shadow-sm mb-1.5">
+                            <i class="fas fa-file-invoice"></i>
                         </div>
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">บทความ</span>
+                        <span class="text-[10px] text-slate-400">40 ข้อ</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Bottom Data Utility Capsule -->
-            <footer class="mt-4 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-database text-indigo-500"></i>
-                    <span data-i18n="offline_title">ระบบข้อมูลออฟไลน์ 100% ปลอดภัยในเครื่องคุณ</span>
+            <!-- 4) FEATURED ACTIVITY / EXAM BAR (เหมือนการ์ด "งวดล่าสุด: 4 พ.ย. 2569" ในภาพ) -->
+            <section class="featured-event-card">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">
+                                งวดล่าสุด: สอบจริง 90 ข้อ
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                                120 นาที
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5">
+                            The Battlefield ครั้งที่ 1 จำลองสถานการณ์จริง
+                        </p>
+                    </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <button type="button" onclick="window.TEP.state.exportBackup()" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors flex items-center gap-1.5">
-                        <i class="fas fa-download"></i> <span data-i18n="offline_backup">สำรองข้อมูล (JSON)</span>
-                    </button>
-                    <button type="button" onclick="document.getElementById('import-file-input').click()" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors flex items-center gap-1.5">
-                        <i class="fas fa-upload"></i> <span data-i18n="offline_restore">กู้คืนข้อมูล</span>
-                    </button>
-                    <input type="file" id="import-file-input" accept=".json" class="hidden" onchange="window.TEP.app.handleImportFile(event)">
-                </div>
-            </footer>
+
+                <button type="button" onclick="window.TEP.mockExam.start()" class="px-3.5 py-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 text-xs font-bold transition-colors btn-press shrink-0">
+                    เริ่มสอบ
+                </button>
+            </section>
+
+            <!-- Action Link: Resume Flashcard -->
+            <div class="text-center pt-1">
+                <button id="btn-continue-learning" type="button" class="w-full py-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 transition-colors btn-press flex items-center justify-center gap-1.5">
+                    <i class="fas fa-book-open text-emerald-600"></i>
+                    <span>เริ่มท่อง Flashcard 48 ข้อ</span>
+                </button>
+            </div>
+
+            <div class="hidden">
+                <span id="stat-unattempted">48</span>
+                <span id="greeting-text"></span>
+            </div>
         </main>
 
         <!-- ================= VIEW 2: FLASHCARD CATEGORIES MENU ================= -->
-        <main id="view-flashcard-menu" class="hidden flex flex-col max-w-xl mx-auto w-full fade-up">
-            <header class="flex items-center justify-between mb-6">
-                <button type="button" onclick="window.TEP.ui.goBack()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
-                    <i class="fas fa-arrow-left"></i>
+        <main id="view-flashcard-menu" class="hidden space-y-3.5 fade-up">
+            <header class="flex items-center justify-between mb-4">
+                <button type="button" onclick="window.TEP.ui.goBack()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
+                    <i class="fas fa-arrow-left text-xs"></i>
                 </button>
-                <h2 class="font-bold text-lg sm:text-xl text-center" tabindex="-1" data-i18n="fc_menu_title">
+                <h2 class="font-extrabold text-base text-center" tabindex="-1" data-i18n="fc_menu_title">
                     หมวดหมู่ Flashcard
                 </h2>
-                <div class="w-10 h-10 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-layer-group"></i>
+                <div class="w-9 h-9 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-layer-group text-sm"></i>
                 </div>
             </header>
 
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 text-center" data-i18n="fc_menu_desc">
-                เลือกหมวดหมู่ที่ต้องการฝึกจำอย่างมีประสิทธิภาพ
-            </p>
-
-            <div class="grid gap-3.5">
-                <!-- Category 1: Grammar -->
-                <div onclick="window.TEP.flashcards.start('grammar')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl shrink-0">
+            <div class="grid gap-3">
+                <div onclick="window.TEP.flashcards.start('grammar')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-spell-check"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="fc_gram_title">Grammar & Structure</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="fc_gram_desc">19 กฎเหล็กจุดตายไวยากรณ์</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="fc_gram_title">Grammar & Structure</h4>
+                            <p class="text-xs text-slate-400" data-i18n="fc_gram_desc">19 กฎเหล็กจุดตายไวยากรณ์</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Category 2: Error Identification -->
-                <div onclick="window.TEP.flashcards.start('error')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.flashcards.start('error')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-search"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="fc_err_title">Error Identification</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="fc_err_desc">13 ทริคจับผิดไวยากรณ์ยอดฮิต</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="fc_err_title">Error Identification</h4>
+                            <p class="text-xs text-slate-400" data-i18n="fc_err_desc">13 ทริคจับผิดไวยากรณ์ยอดฮิต</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-rose-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Category 3: Reading Tactics -->
-                <div onclick="window.TEP.flashcards.start('reading_tactics')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.flashcards.start('reading_tactics')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-eye"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="fc_read_tac_title">Reading Tactics</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="fc_read_tac_desc">7 เทคนิคสแกนและหาคำตอบ</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="fc_read_tac_title">Reading Tactics</h4>
+                            <p class="text-xs text-slate-400" data-i18n="fc_read_tac_desc">7 เทคนิคสแกนและหาคำตอบ</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Category 4: Reading Core Facts -->
-                <div onclick="window.TEP.flashcards.start('reading_facts')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.flashcards.start('reading_facts')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-key"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="fc_read_fact_title">Reading Core Facts</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="fc_read_fact_desc">9 สรุปแก่นเนื้อหาข้อสอบจริง</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="fc_read_fact_title">Reading Core Facts</h4>
+                            <p class="text-xs text-slate-400" data-i18n="fc_read_fact_desc">9 สรุปแก่นเนื้อหาข้อสอบจริง</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-amber-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
             </div>
         </main>
 
         <!-- ================= VIEW 3: 3D FLASHCARD STUDY SCREEN ================= -->
-        <main id="view-flashcards" class="hidden flex flex-col max-w-xl mx-auto w-full fade-up">
-            <header class="flex items-center justify-between mb-4">
-                <button type="button" onclick="window.TEP.ui.goBack()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
-                    <i class="fas fa-arrow-left"></i>
+        <main id="view-flashcards" class="hidden space-y-4 fade-up">
+            <header class="flex items-center justify-between mb-3">
+                <button type="button" onclick="window.TEP.ui.goBack()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
+                    <i class="fas fa-arrow-left text-xs"></i>
                 </button>
-                <h2 id="flashcard-category-title" class="font-bold text-base sm:text-lg text-center truncate mx-3" tabindex="-1">
+                <h2 id="flashcard-category-title" class="font-bold text-sm sm:text-base text-center truncate mx-2" tabindex="-1">
                     Flashcards
                 </h2>
-                <div class="w-10 h-10 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-book-open"></i>
+                <div class="w-9 h-9 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-book-open text-xs"></i>
                 </div>
             </header>
 
-            <!-- Minimal Progress Segment -->
-            <section class="mb-4">
+            <!-- Card Progress Segment -->
+            <section class="bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-800">
                 <div class="flex justify-between items-center text-xs font-bold mb-2">
-                    <span class="text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <span class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                         <i class="fas fa-layer-group"></i>
-                        <span id="current-card-num" class="text-sm tabular-nums">1</span> / <span id="total-cards" class="tabular-nums">19</span>
+                        <span id="current-card-num" class="tabular-nums">1</span> / <span id="total-cards" class="tabular-nums">19</span>
                     </span>
-                    <span class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                        <i class="fas fa-check-circle"></i>
-                        <span data-i18n="fc_learned">จำได้แล้ว</span>: <span id="learned-count" class="tabular-nums">0/19</span>
+                    <span class="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                        <i class="fas fa-check-circle text-emerald-500"></i>
+                        <span data-i18n="fc_learned">จำได้แล้ว</span>: <span id="learned-count" class="tabular-nums font-bold">0/19</span>
                     </span>
                 </div>
-                <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
             </section>
 
             <!-- 3D Card Scene -->
-            <section class="flashcard-scene mb-5 flex-1" onclick="window.TEP.flashcards.flip()" id="flashcard-container">
+            <section class="flashcard-scene" onclick="window.TEP.flashcards.flip()" id="flashcard-container">
                 <div class="flashcard-inner" id="flashcard-inner">
                     <!-- Front -->
                     <div class="flashcard-face flashcard-face--front">
                         <div class="flex items-center justify-between w-full">
-                            <span class="chip bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 border border-indigo-200/40">
-                                คำถาม / จุดสังเกต
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                                จุดสังเกต / คำถาม
                             </span>
-                            <span class="text-xs text-slate-400">
+                            <span class="text-[11px] text-slate-400">
                                 <i class="fas fa-sync-alt mr-1"></i> Flip
                             </span>
                         </div>
                         <div class="flashcard-body-scroll">
-                            <h3 id="card-front-text" class="text-xl sm:text-2xl font-extrabold leading-relaxed text-slate-900 dark:text-white">
+                            <h3 id="card-front-text" class="text-lg sm:text-xl font-bold leading-relaxed text-slate-900 dark:text-white">
                                 Loading...
                             </h3>
                         </div>
-                        <div class="text-center text-slate-400 text-xs flex items-center justify-center gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/80">
-                            <i class="fas fa-hand-pointer text-indigo-500 animate-bounce"></i>
-                            <span data-i18n="fc_tap">แตะการ์ดเพื่อพลิกดูเฉลย (Space / Click)</span>
+                        <div class="text-center text-slate-400 text-xs flex items-center justify-center gap-1 pt-2 border-t border-slate-100 dark:border-slate-800">
+                            <i class="fas fa-hand-pointer text-emerald-600 animate-bounce"></i>
+                            <span data-i18n="fc_tap">แตะการ์ดเพื่อพลิกดูเฉลย</span>
                         </div>
                     </div>
 
                     <!-- Back -->
                     <div class="flashcard-face flashcard-face--back">
                         <div class="flex items-center justify-between w-full">
-                            <span class="chip bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-200/40">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                                 คำตอบ & กฎเหล็ก
                             </span>
-                            <span class="text-xs text-indigo-500 font-semibold">
-                                <i class="fas fa-lightbulb mr-1"></i> Solution
+                            <span class="text-[11px] text-emerald-600 font-semibold">
+                                Solution
                             </span>
                         </div>
                         <div class="flashcard-body-scroll">
-                            <h3 id="card-back-text" class="text-lg sm:text-xl font-bold leading-relaxed text-slate-900 dark:text-white">
+                            <h3 id="card-back-text" class="text-base sm:text-lg font-bold leading-relaxed text-slate-900 dark:text-white">
                                 Loading...
                             </h3>
                         </div>
-                        <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800/80 text-center">
-                            <p class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold flex items-center justify-center gap-1.5">
-                                <i class="fas fa-bookmark text-xs"></i>
+                        <div class="pt-2 border-t border-slate-200/60 dark:border-slate-800 text-center">
+                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center justify-center gap-1">
+                                <i class="fas fa-bookmark text-[10px]"></i>
                                 <span id="card-hint-text">-</span>
                             </p>
                         </div>
@@ -494,35 +430,34 @@
                 </div>
             </section>
 
-            <!-- Bottom Navigation & Rating Pills -->
-            <section class="flex flex-col gap-3">
-                <div class="flex gap-2.5">
-                    <button type="button" onclick="window.TEP.flashcards.prev()" id="prev-btn" class="flex-1 py-3 glass-panel rounded-2xl font-bold text-slate-700 dark:text-slate-200 disabled:opacity-40 text-sm btn-press">
-                        <i class="fas fa-arrow-left mr-1.5"></i> <span data-i18n="btn_prev">ก่อนหน้า</span>
+            <!-- Bottom Action Pills -->
+            <section class="space-y-2.5">
+                <div class="flex gap-2">
+                    <button type="button" onclick="window.TEP.flashcards.prev()" id="prev-btn" class="flex-1 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-bold text-slate-700 dark:text-slate-200 text-xs disabled:opacity-40 btn-press">
+                        <i class="fas fa-arrow-left mr-1"></i> <span data-i18n="btn_prev">ก่อนหน้า</span>
                     </button>
-                    <button type="button" onclick="window.TEP.flashcards.next()" id="next-btn" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold shadow-md shadow-indigo-500/20 disabled:opacity-40 text-sm btn-press">
-                        <span data-i18n="btn_next">ถัดไป</span> <i class="fas fa-arrow-right ml-1.5"></i>
+                    <button type="button" onclick="window.TEP.flashcards.next()" id="next-btn" class="flex-1 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs disabled:opacity-40 btn-press shadow-sm">
+                        <span data-i18n="btn_next">ถัดไป</span> <i class="fas fa-arrow-right ml-1"></i>
                     </button>
                 </div>
 
-                <!-- Self Assessment Rating Pills -->
                 <div class="grid grid-cols-3 gap-2">
-                    <button type="button" onclick="window.TEP.flashcards.setRating('unsure')" id="btn-unsure" class="py-2.5 px-2 rounded-2xl font-bold text-xs sm:text-sm glass-panel border border-slate-200 dark:border-slate-800 btn-press">
-                        <i class="fas fa-times-circle mb-1 block text-base text-rose-500"></i>
-                        <span data-i18n="stat_unsure">ไม่มั่นใจ</span> (1)
+                    <button type="button" onclick="window.TEP.flashcards.setRating('unsure')" id="btn-unsure" class="py-2.5 px-1 rounded-xl font-bold text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 btn-press text-center">
+                        <i class="fas fa-times-circle text-rose-500 mb-0.5 block"></i>
+                        <span data-i18n="stat_unsure">ไม่มั่นใจ</span>
                     </button>
-                    <button type="button" onclick="window.TEP.flashcards.setRating('learning')" id="btn-learning" class="py-2.5 px-2 rounded-2xl font-bold text-xs sm:text-sm glass-panel border border-slate-200 dark:border-slate-800 btn-press">
-                        <i class="fas fa-spinner mb-1 block text-base text-amber-500"></i>
-                        <span data-i18n="stat_learning">กำลังฝึก</span> (2)
+                    <button type="button" onclick="window.TEP.flashcards.setRating('learning')" id="btn-learning" class="py-2.5 px-1 rounded-xl font-bold text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 btn-press text-center">
+                        <i class="fas fa-spinner text-amber-500 mb-0.5 block"></i>
+                        <span data-i18n="stat_learning">กำลังฝึก</span>
                     </button>
-                    <button type="button" onclick="window.TEP.flashcards.setRating('mastered')" id="btn-mastered" class="py-2.5 px-2 rounded-2xl font-bold text-xs sm:text-sm glass-panel border border-slate-200 dark:border-slate-800 btn-press">
-                        <i class="fas fa-check-circle mb-1 block text-base text-emerald-500"></i>
-                        <span data-i18n="stat_mastered">จำได้แล้ว</span> (3)
+                    <button type="button" onclick="window.TEP.flashcards.setRating('mastered')" id="btn-mastered" class="py-2.5 px-1 rounded-xl font-bold text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 btn-press text-center">
+                        <i class="fas fa-check-circle text-emerald-500 mb-0.5 block"></i>
+                        <span data-i18n="stat_mastered">จำได้แล้ว</span>
                     </button>
                 </div>
 
-                <div class="text-center mt-1">
-                    <button type="button" onclick="window.TEP.flashcards.resetCategoryProgress()" class="text-xs font-semibold text-slate-400 hover:text-rose-500 transition-colors underline" data-i18n="btn_reset_prog">
+                <div class="text-center pt-1">
+                    <button type="button" onclick="window.TEP.flashcards.resetCategoryProgress()" class="text-xs text-slate-400 hover:text-rose-500 underline" data-i18n="btn_reset_prog">
                         ล้างสถิติเพื่อท่องซ้ำใหม่
                     </button>
                 </div>
@@ -530,401 +465,408 @@
         </main>
 
         <!-- ================= VIEW 4: PRACTICE ROOM MENU ================= -->
-        <main id="view-practice-menu" class="hidden flex flex-col max-w-xl mx-auto w-full fade-up">
-            <header class="flex items-center justify-between mb-6">
-                <button type="button" onclick="window.TEP.ui.goBack()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
-                    <i class="fas fa-arrow-left"></i>
+        <main id="view-practice-menu" class="hidden space-y-3.5 fade-up">
+            <header class="flex items-center justify-between mb-4">
+                <button type="button" onclick="window.TEP.ui.goBack()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center btn-press text-slate-600 dark:text-slate-300">
+                    <i class="fas fa-arrow-left text-xs"></i>
                 </button>
-                <h2 class="font-bold text-lg sm:text-xl text-center" tabindex="-1" data-i18n="prac_menu_title">
+                <h2 class="font-extrabold text-base text-center" tabindex="-1" data-i18n="prac_menu_title">
                     ห้องซ้อมรบ (Training Room)
                 </h2>
-                <div class="w-10 h-10 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-dumbbell"></i>
+                <div class="w-9 h-9 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-dumbbell text-sm"></i>
                 </div>
             </header>
 
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 text-center" data-i18n="prac_menu_desc">
-                เลือกหมวดหมู่ที่ต้องการฝึกทำข้อสอบ พร้อมวิเคราะห์จุดตาย
-            </p>
-
-            <div class="grid gap-3.5">
-                <!-- Part 1: Grammar -->
-                <div onclick="window.TEP.quiz.start('grammar')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl shrink-0">
+            <div class="grid gap-3">
+                <div onclick="window.TEP.quiz.start('grammar')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-spell-check"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="prac_gram_title">Grammar & Structure</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="prac_gram_desc">ข้อสอบ 20 ข้อ (สุ่มช้อยส์ สลับลำดับ)</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="prac_gram_title">Grammar & Structure</h4>
+                            <p class="text-xs text-slate-400" data-i18n="prac_gram_desc">ข้อสอบ 20 ข้อ (สุ่มช้อยส์ สลับลำดับ)</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Part 2: Error Identification -->
-                <div onclick="window.TEP.quiz.start('error')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.quiz.start('error')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-search"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="prac_err_title">Error Identification</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="prac_err_desc">ข้อสอบหาจุดผิด 15 ข้อ (A, B, C, D)</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="prac_err_title">Error Identification</h4>
+                            <p class="text-xs text-slate-400" data-i18n="prac_err_desc">ข้อสอบหาจุดผิด 15 ข้อ (A, B, C, D)</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-rose-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Part 3: Cloze Test -->
-                <div onclick="window.TEP.quiz.start('cloze')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.quiz.start('cloze')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-file-alt"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="prac_cloze_title">Cloze Test</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="prac_cloze_desc">3 บทความวัดทักษะเติมคำ (15 ข้อ)</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="prac_cloze_title">Cloze Test</h4>
+                            <p class="text-xs text-slate-400" data-i18n="prac_cloze_desc">3 บทความวัดทักษะเติมคำ (15 ข้อ)</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
 
-                <!-- Part 4: Reading Comprehension -->
-                <div onclick="window.TEP.quiz.start('reading')" class="glass-panel p-5 flex items-center justify-between cursor-pointer btn-press group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl shrink-0">
+                <div onclick="window.TEP.quiz.start('reading')" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between cursor-pointer btn-press">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-base">
                             <i class="fas fa-book-reader"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white" data-i18n="prac_read_title">Reading Comprehension</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="prac_read_desc">14 บทความข้อสอบจริง (40 ข้อ)</p>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="prac_read_title">Reading Comprehension</h4>
+                            <p class="text-xs text-slate-400" data-i18n="prac_read_desc">14 บทความข้อสอบจริง (40 ข้อ)</p>
                         </div>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all"></i>
+                    <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
                 </div>
             </div>
         </main>
 
         <!-- ================= VIEW 5: SINGLE CHOICE QUIZ SCREEN ================= -->
-        <main id="view-quiz" class="hidden flex flex-col max-w-2xl mx-auto w-full fade-up">
-            <header class="flex justify-between items-center mb-4">
-                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors btn-press">
-                    <i class="fas fa-times"></i>
+        <main id="view-quiz" class="hidden space-y-4 fade-up">
+            <header class="flex justify-between items-center mb-2">
+                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-rose-500 btn-press">
+                    <i class="fas fa-times text-xs"></i>
                 </button>
-                <div class="font-bold text-slate-500 dark:text-slate-400 text-sm sm:text-base tabular-nums" tabindex="-1">
-                    <span data-i18n="q_item">ข้อที่</span> <span id="quiz-current-num" class="text-slate-900 dark:text-white text-lg font-black">1</span> / <span id="quiz-total-num">20</span>
+                <div class="font-bold text-slate-500 text-xs sm:text-sm tabular-nums" tabindex="-1">
+                    <span data-i18n="q_item">ข้อที่</span> <span id="quiz-current-num" class="text-slate-900 dark:text-white font-black text-base">1</span> / <span id="quiz-total-num">20</span>
                 </div>
             </header>
 
-            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 mb-6 overflow-hidden">
-                <div id="quiz-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div id="quiz-progress-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
 
-            <div class="flex-1 flex flex-col">
-                <div id="quiz-question-text" class="glass-panel p-6 sm:p-7 mb-6 text-base sm:text-lg font-bold leading-relaxed text-slate-900 dark:text-white">
+            <div class="space-y-3.5">
+                <div id="quiz-question-text" class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 font-bold text-sm sm:text-base leading-relaxed text-slate-900 dark:text-white shadow-sm">
                     Loading Question...
                 </div>
 
-                <div id="quiz-options-container" class="flex flex-col gap-3 mb-6"></div>
+                <div id="quiz-options-container" class="space-y-2.5"></div>
 
-                <div id="quiz-explanation-box" class="hidden glass-panel p-5 rounded-2xl border-l-4 border-indigo-600 mb-6 bg-indigo-50/40 dark:bg-indigo-950/20">
-                    <h4 class="font-bold text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 mb-1.5 flex items-center gap-2">
+                <div id="quiz-explanation-box" class="hidden p-4 rounded-2xl border-l-4 border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/20 text-xs sm:text-sm">
+                    <h4 class="font-bold text-emerald-700 dark:text-emerald-400 mb-1 flex items-center gap-1.5">
                         <i class="fas fa-lightbulb"></i> <span data-i18n="explanation">วิเคราะห์จุดตาย & คำอธิบาย</span>
                     </h4>
-                    <p id="quiz-explanation-text" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+                    <p id="quiz-explanation-text" class="text-slate-600 dark:text-slate-300 leading-relaxed"></p>
                 </div>
             </div>
 
-            <button id="quiz-next-btn" type="button" onclick="window.TEP.quiz.nextQuestion()" class="hidden w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 mt-auto btn-press text-base sm:text-lg mb-2">
-                <span data-i18n="btn_next_q">ข้อถัดไป</span> <i class="fas fa-arrow-right ml-2"></i>
+            <button id="quiz-next-btn" type="button" onclick="window.TEP.quiz.nextQuestion()" class="hidden w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md btn-press text-sm">
+                <span data-i18n="btn_next_q">ข้อถัดไป</span> <i class="fas fa-arrow-right ml-1.5"></i>
             </button>
         </main>
 
         <!-- ================= VIEW 6: CLOZE TEST PASSAGE SCREEN ================= -->
-        <main id="view-cloze" class="hidden flex flex-col max-w-3xl mx-auto w-full fade-up">
-            <header class="flex justify-between items-center mb-4">
-                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors btn-press">
-                    <i class="fas fa-times"></i>
+        <main id="view-cloze" class="hidden space-y-3.5 fade-up">
+            <header class="flex justify-between items-center mb-2">
+                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-rose-500 btn-press">
+                    <i class="fas fa-times text-xs"></i>
                 </button>
-                <div class="font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg truncate max-w-xs sm:max-w-md" tabindex="-1">
+                <div class="font-bold text-slate-900 dark:text-slate-100 text-sm truncate max-w-[200px]" tabindex="-1">
                     <span id="cloze-title-display">Passage 1</span>
                 </div>
-                <div class="font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1 rounded-full text-xs sm:text-sm tabular-nums">
+                <div class="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 px-2.5 py-0.5 rounded-full text-xs tabular-nums">
                     <span id="cloze-progress-text">0/5</span>
                 </div>
             </header>
 
-            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 mb-4 overflow-hidden">
-                <div id="cloze-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div id="cloze-progress-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
 
-            <p class="text-xs text-slate-400 text-center mb-4 flex items-center justify-center gap-1.5">
-                <i class="fas fa-info-circle text-indigo-500"></i>
+            <p class="text-xs text-slate-400 text-center flex items-center justify-center gap-1">
+                <i class="fas fa-info-circle text-emerald-600"></i>
                 <span data-i18n="cloze_hint">แตะที่ช่องว่างในบทความเพื่อเปิดตัวเลือกคำตอบ</span>
             </p>
 
-            <div id="cloze-text-container" class="glass-panel p-6 sm:p-8 leading-loose text-base sm:text-lg mb-6 text-slate-800 dark:text-slate-100"></div>
+            <div id="cloze-text-container" class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 leading-loose text-sm sm:text-base text-slate-800 dark:text-slate-100 shadow-sm"></div>
 
-            <button id="cloze-next-passage-btn" type="button" onclick="window.TEP.quiz.nextClozePassage()" class="hidden w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 mt-auto btn-press text-base sm:text-lg mb-2">
-                <span data-i18n="btn_next_pass">ไปยังบทความถัดไป</span> <i class="fas fa-arrow-right ml-2"></i>
+            <button id="cloze-next-passage-btn" type="button" onclick="window.TEP.quiz.nextClozePassage()" class="hidden w-full py-3.5 bg-emerald-600 text-white font-bold rounded-xl shadow-md btn-press text-sm">
+                <span data-i18n="btn_next_pass">ไปยังบทความถัดไป</span> <i class="fas fa-arrow-right ml-1.5"></i>
             </button>
         </main>
 
-        <!-- ================= VIEW 7: READING COMPREHENSION (SPLIT-SCREEN) ================= -->
-        <main id="view-reading" class="hidden flex flex-col w-full fade-up">
-            <header class="flex justify-between items-center mb-4">
-                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors btn-press">
-                    <i class="fas fa-times"></i>
+        <!-- ================= VIEW 7: READING COMPREHENSION SCREEN ================= -->
+        <main id="view-reading" class="hidden space-y-3.5 fade-up">
+            <header class="flex justify-between items-center mb-2">
+                <button type="button" onclick="window.TEP.mockExam.isActive ? window.TEP.mockExam.abort() : window.TEP.quiz.abort()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-rose-500 btn-press">
+                    <i class="fas fa-times text-xs"></i>
                 </button>
-                <div class="font-bold text-slate-500 dark:text-slate-400 text-sm sm:text-base tabular-nums" tabindex="-1">
-                    <span data-i18n="q_item">ข้อที่</span> <span id="reading-current-num" class="text-slate-900 dark:text-white text-lg font-black">1</span> / <span id="reading-total-num">40</span>
+                <div class="font-bold text-slate-500 text-xs tabular-nums" tabindex="-1">
+                    <span data-i18n="q_item">ข้อที่</span> <span id="reading-current-num" class="text-slate-900 dark:text-white font-black text-sm">1</span> / <span id="reading-total-num">40</span>
                 </div>
             </header>
 
-            <div class="w-full bg-slate-200/80 dark:bg-slate-800 rounded-full h-1.5 mb-5 overflow-hidden">
-                <div id="reading-progress-bar" class="bg-sky-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div id="reading-progress-bar" class="bg-purple-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
 
-            <!-- Responsive Split Layout: Left Passage / Right Questions -->
-            <div class="reading-split-grid flex flex-col lg:grid gap-5">
-                <!-- Passage Panel (Left) -->
-                <div id="reading-passage-text" class="glass-panel p-5 sm:p-7 text-sm sm:text-base leading-relaxed overflow-y-auto max-h-[38vh] lg:max-h-[70vh] rounded-3xl">
-                    Loading Passage...
-                </div>
-
-                <!-- Questions & Options Panel (Right) -->
-                <div class="flex flex-col overflow-y-auto">
-                    <div id="reading-question-text" class="glass-panel p-5 mb-4 text-base sm:text-lg font-bold text-sky-600 dark:text-sky-400 rounded-2xl">
-                        Loading Question...
-                    </div>
-
-                    <div id="reading-options-container" class="flex flex-col gap-2.5 mb-4"></div>
-
-                    <div id="reading-explanation-box" class="hidden glass-panel p-4 rounded-2xl border-l-4 border-sky-500 mb-4 bg-sky-50/40 dark:bg-sky-950/20">
-                        <h4 class="font-bold text-xs sm:text-sm text-sky-600 dark:text-sky-400 mb-1 flex items-center gap-2">
-                            <i class="fas fa-lightbulb"></i> <span data-i18n="explanation">คำอธิบาย</span>
-                        </h4>
-                        <p id="reading-explanation-text" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
-                    </div>
-
-                    <button id="reading-next-btn" type="button" onclick="window.TEP.quiz.nextReadingQuestion()" class="hidden w-full py-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-2xl shadow-lg shadow-sky-500/25 mt-auto btn-press text-base mb-2">
-                        <span data-i18n="btn_next_q">ข้อถัดไป</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
+            <div id="reading-passage-text" class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm leading-relaxed overflow-y-auto max-h-[30vh] shadow-inner">
+                Loading Passage...
             </div>
+
+            <div id="reading-question-text" class="p-3.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-900 dark:text-purple-300 font-bold text-xs sm:text-sm">
+                Loading Question...
+            </div>
+
+            <div id="reading-options-container" class="space-y-2"></div>
+
+            <div id="reading-explanation-box" class="hidden p-3.5 rounded-xl border-l-4 border-purple-500 bg-purple-50/50 dark:bg-purple-950/20 text-xs">
+                <h4 class="font-bold text-purple-700 dark:text-purple-400 mb-1 flex items-center gap-1">
+                    <i class="fas fa-lightbulb"></i> <span data-i18n="explanation">คำอธิบาย</span>
+                </h4>
+                <p id="reading-explanation-text" class="text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <button id="reading-next-btn" type="button" onclick="window.TEP.quiz.nextReadingQuestion()" class="hidden w-full py-3.5 bg-purple-600 text-white font-bold rounded-xl shadow-md btn-press text-sm">
+                <span data-i18n="btn_next_q">ข้อถัดไป</span> <i class="fas fa-arrow-right ml-1.5"></i>
+            </button>
         </main>
 
         <!-- ================= VIEW 8: SCORE SUMMARY ================= -->
-        <main id="view-quiz-summary" class="hidden flex flex-col max-w-md mx-auto w-full items-center justify-center text-center fade-up pt-6">
-            <div class="w-20 h-20 sm:w-24 sm:h-24 bg-emerald-500/10 text-emerald-500 rounded-3xl flex items-center justify-center text-4xl sm:text-5xl mb-6 shadow-xl shadow-emerald-500/15">
+        <main id="view-quiz-summary" class="hidden space-y-4 text-center fade-up pt-4">
+            <div class="w-16 h-16 bg-emerald-500/15 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto shadow-md">
                 <i class="fas fa-trophy"></i>
             </div>
 
-            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" tabindex="-1" data-i18n="sum_title">
-                ทำแบบทดสอบเสร็จสิ้น!
-            </h2>
-            <div id="summary-subtitle" class="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                ทำได้ดีมากในการทดสอบครั้งนี้!
-            </div>
-
-            <!-- Score Showcase Card -->
-            <div class="glass-panel w-full p-6 sm:p-7 mb-6 flex justify-around items-center rounded-3xl border-t-4 border-t-indigo-600">
-                <div>
-                    <div id="summary-score" class="text-4xl sm:text-5xl font-black text-indigo-600 dark:text-indigo-400 tabular-nums">0</div>
-                    <div class="text-xs font-semibold text-slate-400 mt-1" data-i18n="sum_score">คะแนนที่ได้</div>
-                </div>
-                <div class="h-10 w-px bg-slate-200 dark:bg-slate-800"></div>
-                <div>
-                    <div id="summary-total" class="text-4xl sm:text-5xl font-black text-slate-800 dark:text-slate-100 tabular-nums">0</div>
-                    <div class="text-xs font-semibold text-slate-400 mt-1" data-i18n="sum_total">คะแนนเต็ม</div>
-                </div>
-                <div class="h-10 w-px bg-slate-200 dark:bg-slate-800"></div>
-                <div>
-                    <div id="summary-percentage-display" class="text-4xl sm:text-5xl font-black text-emerald-500 tabular-nums">0%</div>
-                    <div class="text-xs font-semibold text-slate-400 mt-1" data-i18n="sum_percentage">คิดเป็น</div>
+            <div>
+                <h2 class="text-xl font-extrabold text-slate-900 dark:text-white" tabindex="-1" data-i18n="sum_title">
+                    ทำแบบทดสอบเสร็จสิ้น!
+                </h2>
+                <div id="summary-subtitle" class="text-xs text-slate-500 mt-1">
+                    ทำได้ดีมากในการทดสอบครั้งนี้!
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 w-full">
-                <button type="button" onclick="window.TEP.ui.navigateTo('view-practice-menu')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 btn-press" data-i18n="btn_back_menu">
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex justify-around items-center">
+                <div>
+                    <div id="summary-score" class="text-3xl font-black text-emerald-600 tabular-nums">0</div>
+                    <div class="text-[11px] font-semibold text-slate-400 mt-0.5" data-i18n="sum_score">คะแนนที่ได้</div>
+                </div>
+                <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+                <div>
+                    <div id="summary-total" class="text-3xl font-black text-slate-800 dark:text-slate-100 tabular-nums">0</div>
+                    <div class="text-[11px] font-semibold text-slate-400 mt-0.5" data-i18n="sum_total">คะแนนเต็ม</div>
+                </div>
+                <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+                <div>
+                    <div id="summary-percentage-display" class="text-3xl font-black text-emerald-500 tabular-nums">0%</div>
+                    <div class="text-[11px] font-semibold text-slate-400 mt-0.5" data-i18n="sum_percentage">คิดเป็น</div>
+                </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button type="button" onclick="window.TEP.ui.navigateTo('view-practice-menu')" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl shadow-md btn-press text-xs sm:text-sm" data-i18n="btn_back_menu">
                     กลับสู่เมนูซ้อมรบ
                 </button>
-                <button type="button" onclick="window.TEP.ui.navigateTo('view-lobby')" class="w-full py-3.5 glass-panel text-slate-700 dark:text-slate-300 font-bold rounded-2xl btn-press" data-i18n="btn_back_lobby">
+                <button type="button" onclick="window.TEP.ui.navigateTo('view-lobby')" class="w-full py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl btn-press text-xs" data-i18n="btn_back_lobby">
                     กลับสู่หน้าหลัก
                 </button>
             </div>
         </main>
     </div>
 
-    <!-- ================= MODALS & DRAWERS ================= -->
+    <!-- ================= 3. ส่วนล่าง (BOTTOM TAB NAVIGATION BAR) ================= -->
+    <nav class="app-bottom-nav">
+        <div class="max-w-md sm:max-w-lg mx-auto flex items-center justify-around">
+            <!-- Tab 1: ภาพรวม -->
+            <button id="tab-nav-home" type="button" onclick="window.TEP.ui.navigateTo('view-lobby')" class="bottom-tab-btn active">
+                <i class="fas fa-th-large"></i>
+                <span>ภาพรวม</span>
+            </button>
 
-    <!-- PROFILE MANAGEMENT MODAL (Accessible via header avatar) -->
+            <!-- Tab 2: คลังอาวุธ -->
+            <button id="tab-nav-cards" type="button" onclick="window.TEP.ui.navigateTo('view-flashcard-menu')" class="bottom-tab-btn relative">
+                <i class="fas fa-book"></i>
+                <span class="tab-badge">48</span>
+                <span>คลังอาวุธ</span>
+            </button>
+
+            <!-- Tab 3: ซ้อมรบ -->
+            <button id="tab-nav-quiz" type="button" onclick="window.TEP.ui.navigateTo('view-practice-menu')" class="bottom-tab-btn">
+                <i class="fas fa-exchange-alt"></i>
+                <span>ซ้อมรบ</span>
+            </button>
+
+            <!-- Tab 4: สนามจริง -->
+            <button id="tab-nav-mock" type="button" onclick="window.TEP.mockExam.start()" class="bottom-tab-btn">
+                <i class="fas fa-clipboard-check"></i>
+                <span>สนามจริง</span>
+            </button>
+
+            <!-- Tab 5: สมาชิก / โปรไฟล์ -->
+            <button id="tab-nav-profile" type="button" onclick="window.TEP.app.openProfileModal()" class="bottom-tab-btn">
+                <i class="fas fa-user-circle"></i>
+                <span>สมาชิก</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- PROFILE MODAL (สมาชิก) -->
     <div id="auth-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4" role="dialog" aria-modal="true">
         <div class="relative max-w-sm w-full mx-auto">
-            <div class="glass-panel rounded-3xl p-6 sm:p-7 w-full shadow-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 w-full shadow-2xl border border-slate-200 dark:border-slate-800">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <i class="fas fa-user-circle text-indigo-500"></i>
-                        <span>จัดการโปรไฟล์ผู้ใช้</span>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fas fa-user-circle text-emerald-600"></i>
+                        <span>สมาชิก & ข้อมูลผู้ใช้</span>
                     </h3>
-                    <button type="button" onclick="window.TEP.app.closeProfileModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors">
-                        <i class="fas fa-times"></i>
+                    <button type="button" onclick="window.TEP.app.closeProfileModal()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors">
+                        <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
 
-                <form id="auth-form" action="javascript:void(0);" onsubmit="window.TEP.app.handleProfileSwitchOrAdd(event)" class="flex flex-col gap-4 text-left">
+                <div class="mb-4 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm font-bold">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400">โปรไฟล์ปัจจุบัน</div>
+                        <div class="user-pin-label font-bold text-sm text-slate-900 dark:text-white">STUDENT</div>
+                    </div>
+                </div>
+
+                <form id="auth-form" action="javascript:void(0);" onsubmit="window.TEP.app.handleProfileSwitchOrAdd(event)" class="space-y-3.5 text-left">
                     <div id="profile-selection-container" class="hidden">
-                        <label class="text-xs font-bold text-slate-400 mb-1.5 block uppercase tracking-wider" data-i18n="auth_select">
-                            สลับไปยังโปรไฟล์เดิม
+                        <label class="text-[11px] font-bold text-slate-400 mb-1 block uppercase" data-i18n="auth_select">
+                            เลือกโปรไฟล์เดิม
                         </label>
                         <div class="flex gap-2">
-                            <div class="relative flex-1">
-                                <select id="auth-profile-select" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer appearance-none text-sm"></select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                                    <i class="fas fa-chevron-down text-xs"></i>
-                                </div>
-                            </div>
-                            <button type="button" onclick="window.TEP.app.openDeleteProfileModal()" class="px-3.5 py-2.5 rounded-xl border border-rose-300 dark:border-rose-900 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors" title="Delete Profile">
-                                <i class="fas fa-trash-alt text-xs"></i>
+                            <select id="auth-profile-select" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold focus:outline-none"></select>
+                            <button type="button" onclick="window.TEP.app.openDeleteProfileModal()" class="px-3 py-2 rounded-xl border border-rose-300 dark:border-rose-900 text-rose-500 text-xs" title="Delete Profile">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
-                        </div>
-
-                        <div class="relative my-3 text-center">
-                            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200 dark:border-slate-800"></div></div>
-                            <span class="relative bg-white dark:bg-slate-900 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest" data-i18n="auth_or">
-                                หรือสร้างใหม่
-                            </span>
                         </div>
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-slate-400 mb-1.5 block uppercase tracking-wider" data-i18n="auth_create">
-                            สร้างชื่อใหม่ (1-20 ตัวอักษร)
+                        <label class="text-[11px] font-bold text-slate-400 mb-1 block uppercase" data-i18n="auth_create">
+                            สร้างหรือสลับชื่อผู้ใช้
                         </label>
-                        <input type="text" id="auth-pin-input" autocomplete="off" maxlength="20" placeholder="ระบุชื่อผู้ใช้ / Student ID" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <input type="text" id="auth-pin-input" autocomplete="off" maxlength="20" placeholder="ชื่อผู้ใช้ หรือ รหัสนักศึกษา" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
 
-                    <button type="submit" class="w-full mt-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md shadow-indigo-500/20 btn-press text-sm">
-                        <span>บันทึก / สลับโปรไฟล์</span>
+                    <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-sm btn-press">
+                        บันทึก / สลับโปรไฟล์
                     </button>
                 </form>
+
+                <!-- Offline Backup / Restore -->
+                <div class="mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                    <button type="button" onclick="window.TEP.state.exportBackup()" class="hover:text-emerald-600 font-semibold flex items-center gap-1">
+                        <i class="fas fa-download text-[10px]"></i> สำรองไฟล์
+                    </button>
+                    <button type="button" onclick="document.getElementById('import-file-input').click()" class="hover:text-emerald-600 font-semibold flex items-center gap-1">
+                        <i class="fas fa-upload text-[10px]"></i> กู้คืนไฟล์
+                    </button>
+                    <input type="file" id="import-file-input" accept=".json" class="hidden" onchange="window.TEP.app.handleImportFile(event)">
+                </div>
             </div>
         </div>
     </div>
 
     <!-- MODAL: DELETE PROFILE -->
     <div id="delete-profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true">
-        <div class="glass-panel rounded-3xl p-6 sm:p-7 max-w-sm w-full mx-auto text-center fade-up bg-white/95 dark:bg-slate-900/95">
-            <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fas fa-trash-alt"></i>
-            </div>
-            <h3 class="text-lg font-bold mb-2" data-i18n="del_title">Delete Profile?</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-6">
-                <span data-i18n="del_desc1">ต้องการลบโปรไฟล์</span>
-                <span id="delete-profile-name" class="font-bold text-slate-900 dark:text-slate-100"></span>?
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 max-w-xs w-full mx-auto text-center fade-up shadow-xl">
+            <h3 class="text-base font-bold mb-2" data-i18n="del_title">Delete Profile?</h3>
+            <p class="text-xs text-slate-500 mb-4">
+                ต้องการลบโปรไฟล์ <span id="delete-profile-name" class="font-bold"></span>?
             </p>
-            <div class="flex gap-2.5">
-                <button type="button" onclick="window.TEP.app.closeDeleteProfileModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold transition-colors btn-press text-xs sm:text-sm" data-i18n="btn_cancel">ยกเลิก</button>
-                <button type="button" onclick="window.TEP.app.confirmDeleteProfile()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold shadow-md btn-press text-xs sm:text-sm" data-i18n="btn_delete">ลบทันที</button>
+            <div class="flex gap-2">
+                <button type="button" onclick="window.TEP.app.closeDeleteProfileModal()" class="flex-1 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-semibold btn-press" data-i18n="btn_cancel">ยกเลิก</button>
+                <button type="button" onclick="window.TEP.app.confirmDeleteProfile()" class="flex-1 py-2 bg-rose-600 text-white rounded-xl text-xs font-semibold btn-press shadow-sm" data-i18n="btn_delete">ลบทันที</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: RESET PROGRESS -->
     <div id="reset-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true">
-        <div class="glass-panel rounded-3xl p-6 sm:p-7 max-w-sm w-full mx-auto text-center fade-up bg-white/95 dark:bg-slate-900/95">
-            <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="text-lg font-bold mb-2" data-i18n="res_title">ยืนยันการเริ่มต้นใหม่?</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-6">
-                <span data-i18n="res_desc">ความคืบหน้าทั้งหมดของโปรไฟล์</span>
-                <span id="reset-pin-display" class="font-bold text-slate-900 dark:text-slate-100"></span>
-                <span data-i18n="res_desc2">จะถูกล้างอย่างถาวร</span>
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 max-w-xs w-full mx-auto text-center fade-up shadow-xl">
+            <h3 class="text-base font-bold mb-2" data-i18n="res_title">ยืนยันเริ่มต้นใหม่?</h3>
+            <p class="text-xs text-slate-500 mb-4">
+                ล้างข้อมูลโปรไฟล์ <span id="reset-pin-display" class="font-bold"></span>?
             </p>
-            <div class="flex gap-2.5">
-                <button type="button" onclick="window.TEP.app.closeResetModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold transition-colors btn-press text-xs sm:text-sm" data-i18n="btn_cancel">ยกเลิก</button>
-                <button type="button" onclick="window.TEP.app.confirmReset()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold shadow-md btn-press text-xs sm:text-sm" data-i18n="btn_reset">เริ่มต้นใหม่</button>
+            <div class="flex gap-2">
+                <button type="button" onclick="window.TEP.app.closeResetModal()" class="flex-1 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-semibold btn-press" data-i18n="btn_cancel">ยกเลิก</button>
+                <button type="button" onclick="window.TEP.app.confirmReset()" class="flex-1 py-2 bg-rose-600 text-white rounded-xl text-xs font-semibold btn-press shadow-sm" data-i18n="btn_reset">เริ่มต้นใหม่</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: RESTORE / IMPORT JSON -->
     <div id="import-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true">
-        <div class="glass-panel rounded-3xl p-6 sm:p-7 max-w-sm w-full mx-auto text-center fade-up bg-white/95 dark:bg-slate-900/95">
-            <div class="w-12 h-12 rounded-full bg-indigo-500/10 text-indigo-500 flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fas fa-file-import"></i>
-            </div>
-            <h3 class="text-lg font-bold mb-2" data-i18n="imp_title">ยืนยันการกู้คืนข้อมูล?</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-6">
-                <span data-i18n="imp_desc1">คุณกำลังจะนำเข้าข้อมูลของโปรไฟล์</span>
-                <span id="import-profile-name" class="font-bold text-indigo-600 dark:text-indigo-400 block my-1"></span>
-                <span data-i18n="imp_desc2">ข้อมูลปัจจุบันในเครื่องของคุณจะถูกเขียนทับทันที</span>
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 max-w-xs w-full mx-auto text-center fade-up shadow-xl">
+            <h3 class="text-base font-bold mb-2" data-i18n="imp_title">กู้คืนข้อมูล?</h3>
+            <p class="text-xs text-slate-500 mb-4">
+                นำเข้าข้อมูลโปรไฟล์ <span id="import-profile-name" class="font-bold text-emerald-600"></span>? ข้อมูลปัจจุบันจะถูกเขียนทับ
             </p>
-            <div class="flex gap-2.5">
-                <button type="button" onclick="window.TEP.app.closeImportModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold transition-colors btn-press text-xs sm:text-sm" data-i18n="btn_cancel">ยกเลิก</button>
-                <button type="button" onclick="window.TEP.app.confirmImport()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-md btn-press text-xs sm:text-sm" data-i18n="btn_restore">เขียนทับข้อมูล</button>
+            <div class="flex gap-2">
+                <button type="button" onclick="window.TEP.app.closeImportModal()" class="flex-1 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-semibold btn-press" data-i18n="btn_cancel">ยกเลิก</button>
+                <button type="button" onclick="window.TEP.app.confirmImport()" class="flex-1 py-2 bg-emerald-600 text-white rounded-xl text-xs font-semibold btn-press shadow-sm" data-i18n="btn_restore">เขียนทับ</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: ABORT MOCK EXAM -->
     <div id="abort-mock-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true">
-        <div class="glass-panel rounded-3xl p-6 sm:p-7 max-w-sm w-full mx-auto text-center fade-up bg-white/95 dark:bg-slate-900/95">
-            <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto mb-4 text-xl">
-                <i class="fas fa-sign-out-alt"></i>
-            </div>
-            <h3 class="text-lg font-bold mb-2" data-i18n="abort_mock_title">ออกจากการสอบ?</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-6" data-i18n="abort_mock_desc">
-                คุณกำลังทำข้อสอบจำลองอยู่ หากออกตอนนี้ความคืบหน้าจะไม่ถูกบันทึก
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 max-w-xs w-full mx-auto text-center fade-up shadow-xl">
+            <h3 class="text-base font-bold mb-2" data-i18n="abort_mock_title">ออกจากการสอบ?</h3>
+            <p class="text-xs text-slate-500 mb-4" data-i18n="abort_mock_desc">
+                คุณกำลังสอบอยู่ หากออกตอนนี้จะไม่ถูกบันทึกคะแนน
             </p>
-            <div class="flex gap-2.5">
-                <button type="button" onclick="window.TEP.mockExam.closeAbortModal()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold transition-colors btn-press text-xs sm:text-sm" data-i18n="btn_resume_exam">ทำต่อ</button>
-                <button type="button" onclick="window.TEP.mockExam.confirmAbort()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold shadow-md btn-press text-xs sm:text-sm" data-i18n="btn_confirm_exit">ยืนยันออก</button>
+            <div class="flex gap-2">
+                <button type="button" onclick="window.TEP.mockExam.closeAbortModal()" class="flex-1 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-semibold btn-press" data-i18n="btn_resume_exam">ทำต่อ</button>
+                <button type="button" onclick="window.TEP.mockExam.confirmAbort()" class="flex-1 py-2 bg-rose-600 text-white rounded-xl text-xs font-semibold btn-press shadow-sm" data-i18n="btn_confirm_exit">ยืนยันออก</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: CLOZE TEST BLANK OPTION PICKER -->
+    <!-- MODAL: CLOZE BLANK OPTION PICKER -->
     <div id="cloze-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true">
-        <div class="glass-panel rounded-3xl p-5 sm:p-6 max-w-md w-full mx-auto fade-up flex flex-col max-h-[90vh] shadow-2xl bg-white/95 dark:bg-slate-900/95">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-base sm:text-lg font-bold text-indigo-600 dark:text-indigo-400">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 max-w-xs sm:max-w-sm w-full mx-auto fade-up shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                     <span data-i18n="q_item">ข้อที่</span> <span id="cloze-qnum-display">--</span>
                 </h3>
-                <button type="button" onclick="window.TEP.quiz.closeClozeModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-rose-500 transition-colors">
+                <button type="button" onclick="window.TEP.quiz.closeClozeModal()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-rose-500">
                     <i class="fas fa-times text-xs"></i>
                 </button>
             </div>
-            <div class="flex flex-col gap-2.5 mb-4 overflow-y-auto" id="cloze-options-container"></div>
-            <div id="cloze-explanation-box" class="hidden glass-panel p-4 rounded-2xl border-l-4 border-indigo-500 overflow-y-auto mt-2 bg-indigo-50/50 dark:bg-indigo-950/20">
-                <h4 class="font-bold text-xs text-indigo-600 dark:text-indigo-400 mb-1 flex items-center gap-1.5">
-                    <i class="fas fa-lightbulb"></i> <span data-i18n="explanation">คำอธิบาย</span>
-                </h4>
-                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" id="cloze-explanation-text"></p>
+            <div id="cloze-options-container" class="space-y-2 mb-3"></div>
+            <div id="cloze-explanation-box" class="hidden p-3 rounded-xl border-l-4 border-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 text-xs">
+                <h4 class="font-bold text-emerald-700 dark:text-emerald-400 mb-0.5" data-i18n="explanation">คำอธิบาย</h4>
+                <p id="cloze-explanation-text" class="text-slate-600 dark:text-slate-300"></p>
             </div>
-            <button id="cloze-modal-close-btn" type="button" onclick="window.TEP.quiz.closeClozeModal()" class="hidden w-full mt-3 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md font-bold text-sm btn-press" data-i18n="btn_close">
+            <button id="cloze-modal-close-btn" type="button" onclick="window.TEP.quiz.closeClozeModal()" class="hidden w-full mt-3 py-2.5 bg-emerald-600 text-white rounded-xl font-bold text-xs btn-press" data-i18n="btn_close">
                 เข้าใจแล้ว (ปิด)
             </button>
         </div>
     </div>
 
     <!-- ================= JAVASCRIPT MODULE SCRIPTS ================= -->
-    <!-- Data Layer -->
     <script src="js/data/flashcards.js"></script>
     <script src="js/data/quizzes.js"></script>
     <script src="js/data/i18n.js"></script>
-
-    <!-- Logic Layer -->
     <script src="js/modules/audio.js"></script>
     <script src="js/modules/state.js"></script>
     <script src="js/modules/ui.js"></script>
     <script src="js/modules/flashcards.js"></script>
     <script src="js/modules/quiz.js"></script>
     <script src="js/modules/mockExam.js"></script>
-
-    <!-- Application Bootstrap -->
     <script src="js/app.js"></script>
 </body>
 </html>
